@@ -34,11 +34,13 @@ class EventDetailsScreen extends StatelessWidget {
   Future<void> _approveRequest(BuildContext context) async {
     try {
       final result = await AdminService.approveEventRequest(docId);
-      
+
       if (result['success']) {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Event approved and organizer assigned!')),
+            const SnackBar(
+              content: Text('Event approved and organizer assigned!'),
+            ),
           );
           Navigator.of(context).pop();
         }
@@ -51,9 +53,9 @@ class EventDetailsScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error approving: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error approving: $e')));
       }
     }
   }
@@ -61,12 +63,12 @@ class EventDetailsScreen extends StatelessWidget {
   Future<void> _rejectRequest(BuildContext context) async {
     try {
       final result = await AdminService.updateRequestStatus(docId, 'rejected');
-      
+
       if (result['success']) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Event rejected!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Event rejected!')));
           Navigator.of(context).pop();
         }
       } else {
@@ -78,9 +80,9 @@ class EventDetailsScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error rejecting: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error rejecting: $e')));
       }
     }
   }
@@ -91,9 +93,7 @@ class EventDetailsScreen extends StatelessWidget {
     final status = data['status'] ?? 'pending';
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Event Details'),
-      ),
+      appBar: AppBar(title: const Text('Event Details')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class AdminService {
   static const String baseUrl = "http://localhost:3001";
-  
+
   static Future<Map<String, dynamic>> _authenticatedRequest(
     String endpoint, {
     String method = 'GET',
@@ -17,23 +17,35 @@ class AdminService {
 
     try {
       final uri = Uri.parse('$baseUrl/api/v1/admin/$endpoint');
-      
+
       final headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       };
 
       http.Response response;
-      
+
       switch (method.toUpperCase()) {
         case 'POST':
-          response = await http.post(uri, headers: headers, body: jsonEncode(body));
+          response = await http.post(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
           break;
         case 'PATCH':
-          response = await http.patch(uri, headers: headers, body: jsonEncode(body));
+          response = await http.patch(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
           break;
         case 'PUT':
-          response = await http.put(uri, headers: headers, body: jsonEncode(body));
+          response = await http.put(
+            uri,
+            headers: headers,
+            body: jsonEncode(body),
+          );
           break;
         case 'DELETE':
           response = await http.delete(uri, headers: headers);
@@ -44,12 +56,13 @@ class AdminService {
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return {'success': true, 'data': jsonDecode(response.body)};
+        final responseData = jsonDecode(response.body);
+        return {'success': true, 'data': responseData};
       } else {
         return {
-          'success': false, 
+          'success': false,
           'message': 'Server error: ${response.statusCode} - ${response.body}',
-          'statusCode': response.statusCode
+          'statusCode': response.statusCode,
         };
       }
     } catch (e) {
@@ -57,20 +70,26 @@ class AdminService {
     }
   }
 
-  static Future<Map<String, dynamic>> getEventRequests({String? status, String? search}) async {
+  static Future<Map<String, dynamic>> getEventRequests({
+    String? status,
+    String? search,
+  }) async {
     String endpoint = 'event-requests';
     final params = <String>[];
     if (status != null && status != 'all') params.add('status=$status');
     if (search != null && search.isNotEmpty) params.add('search=$search');
-    
+
     if (params.isNotEmpty) {
       endpoint += '?${params.join('&')}';
     }
-    
+
     return _authenticatedRequest(endpoint);
   }
 
-  static Future<Map<String, dynamic>> updateRequestStatus(String requestId, String status) async {
+  static Future<Map<String, dynamic>> updateRequestStatus(
+    String requestId,
+    String status,
+  ) async {
     return _authenticatedRequest(
       'event-requests/$requestId/status',
       method: 'PATCH',
@@ -78,11 +97,12 @@ class AdminService {
     );
   }
 
-  static Future<Map<String, dynamic>> approveEventRequest(String requestId) async {
+  static Future<Map<String, dynamic>> approveEventRequest(
+    String requestId,
+  ) async {
     return _authenticatedRequest(
       'event-requests/$requestId/approve',
       method: 'POST',
-      body: {}
     );
   }
 
@@ -90,7 +110,11 @@ class AdminService {
     return _authenticatedRequest('users');
   }
 
-  static Future<Map<String, dynamic>> updateUserRole(String userId, {String? role, bool? isOrganizer}) async {
+  static Future<Map<String, dynamic>> updateUserRole(
+    String userId, {
+    String? role,
+    bool? isOrganizer,
+  }) async {
     return _authenticatedRequest(
       'users/$userId/role',
       method: 'PATCH',

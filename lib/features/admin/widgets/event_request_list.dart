@@ -28,29 +28,30 @@ class _EventRequestListState extends State<EventRequestList> {
 
   Future<void> _loadEventRequests() async {
     setState(() => _isLoading = true);
-    
+
     final result = await AdminService.getEventRequests(
       status: widget.selectedFilter == 'all' ? null : widget.selectedFilter,
       search: widget.searchQuery.isEmpty ? null : widget.searchQuery,
     );
 
+
     if (result['success']) {
+      final requests = result['data']['requests'] ?? [];
       setState(() {
-        _requests = result['data']['requests'] ?? [];
+        _requests = requests;
         _isLoading = false;
       });
     } else {
       setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${result['message']}")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${result['message']}")));
     }
   }
-
   @override
   void didUpdateWidget(EventRequestList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.selectedFilter != widget.selectedFilter || 
+    if (oldWidget.selectedFilter != widget.selectedFilter ||
         oldWidget.searchQuery != widget.searchQuery) {
       _loadEventRequests();
     }
@@ -59,7 +60,8 @@ class _EventRequestListState extends State<EventRequestList> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) return const Center(child: CircularProgressIndicator());
-    if (_requests.isEmpty) return const Center(child: Text('No event requests found.'));
+    if (_requests.isEmpty)
+      return const Center(child: Text('No event requests found.'));
 
     return ListView.builder(
       itemCount: _requests.length,
@@ -75,10 +77,11 @@ class _EventRequestListState extends State<EventRequestList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EventDetailsScreen(
-                    eventData: request,
-                    docId: request['id'],
-                  ),
+                  builder:
+                      (context) => EventDetailsScreen(
+                        eventData: request,
+                        docId: request['id'],
+                      ),
                 ),
               );
             },

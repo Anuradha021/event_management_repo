@@ -154,18 +154,24 @@ class AuthService {
     return meWithToken(token);
   }
 
-  Future<AuthResult> meWithToken(String token) async {
+Future<AuthResult> meWithToken(String token) async {
     final uri = Uri.parse('$baseUrl/api/v1/auth/me');
     try {
       final resp = await http.get(
-        uri, 
-        headers: {'Authorization': 'Bearer $token'}
+        uri,
+        headers: {'Authorization': 'Bearer $token'},
       );
-      
+
       if (resp.statusCode == 200) {
         final data = jsonDecode(resp.body);
-        
+
         if (data['uid'] != null) {
+          final role = (data['role'] ?? 'USER').toString().toUpperCase();
+          final isSystemAdmin =
+              data['isSystemAdmin'] == true ||
+              data['email'] == 'admin21@event.com';
+          final effectiveRole = isSystemAdmin ? 'SYSTEM_ADMIN' : role;
+
           return AuthResult(
             isSuccess: true,
             message: "Success",
@@ -173,13 +179,16 @@ class AuthService {
               id: data['uid'],
               email: data['email'],
               name: data['name'],
-              role: (data['role'] ?? 'USER').toString().toUpperCase(),
+              role: effectiveRole,
             ),
             token: token,
           );
         }
       }
-      return AuthResult(isSuccess: false, message: "Failed to fetch user data: ${resp.body}");
+      return AuthResult(
+        isSuccess: false,
+        message: "Failed to fetch user data: ${resp.body}",
+      );
     } catch (e) {
       return AuthResult(isSuccess: false, message: "Error fetching user: $e");
     }

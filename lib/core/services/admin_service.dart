@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:http/http.dart' as http;
 
-class AdminService {
-  static const String baseUrl = "http://localhost:3001";
+import 'package:event_management_app1/core/config/api_config.dart';
 
+class AdminService {
   static Future<Map<String, dynamic>> _authenticatedRequest(
     String endpoint, {
     String method = 'GET',
@@ -16,7 +16,7 @@ class AdminService {
     }
 
     try {
-      final uri = Uri.parse('$baseUrl/api/v1/admin/$endpoint');
+      final uri = Uri.parse('${ApiConfig.baseUrl}/admin/$endpoint');
 
       final headers = {
         'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ class AdminService {
           response = await http.post(
             uri,
             headers: headers,
-            body: jsonEncode(body),
+            body: body != null ? jsonEncode(body) : null,
           );
           break;
         case 'PATCH':

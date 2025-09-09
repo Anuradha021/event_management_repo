@@ -1,16 +1,16 @@
 import 'dart:convert';
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class OrganizerEventService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
   static Future<Map<String, dynamic>> getMyEvents({String? status}) async {
     try {
       final token = await AuthStorageService.getToken();
       if (token == null) {
         return {'success': false, 'message': 'Not authenticated'};
       }
-      String url = '$baseUrl/organizer/get-my-events';
+      String url = '${ApiConfig.baseUrl}/organizer/get-my-events';
       if (status != null && status != 'all') {
         url += '?status=$status';
       }
@@ -53,7 +53,7 @@ class OrganizerEventService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.get(
-        Uri.parse('$baseUrl/organizer/get-event-details?eventId=$eventId'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/get-event-details?eventId=$eventId'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ class OrganizerEventService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.patch(
-        Uri.parse('$baseUrl/organizer/update-event-status'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/update-event-status'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class OrganizerEventService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.get(
-        Uri.parse('$baseUrl/events/get-published-events'),
+        Uri.parse('${ApiConfig.baseUrl}/events/get-published-events'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

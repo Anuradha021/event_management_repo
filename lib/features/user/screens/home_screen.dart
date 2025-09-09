@@ -32,45 +32,29 @@ class _UnifiedHomeScreenState extends State<UnifiedHomeScreen> {
   }
 
   Future<void> _loadEvents() async {
+  setState(() {
+    _isLoading = true;
+    _errorMessage = null;
+  });
+
+  final result = await EventService.getPublishedEvents(
+    search: _searchQuery.isEmpty ? null : _searchQuery,
+    category: _selectedCategory == 'All' ? null : _selectedCategory,
+  );
+
+  if (result['success'] == true) {
+  
     setState(() {
-      _isLoading = true;
-      _errorMessage = null;
+      _events = result['data']['events'] ?? [];
+      _isLoading = false;
     });
-
-    final result = await EventService.getPublishedEvents(
-      search: _searchQuery.isEmpty ? null : _searchQuery,
-      category: _selectedCategory == 'All' ? null : _selectedCategory,
-    );
-
-    if (result['success']) {
-      setState(() {
-       
-        if (result['data'] != null && result['data'] is Map) {
-          final dataMap = result['data'] as Map<String, dynamic>;
-       
-          if (dataMap.containsKey('data') && dataMap['data'] is Map) {
-            final innerDataMap = dataMap['data'] as Map<String, dynamic>;
-            _events = innerDataMap['events'] ?? [];
-          }
-          else if (dataMap.containsKey('events') && dataMap['events'] is List) {
-            _events = dataMap['events'] ?? [];
-          }
-         
-          else {
-            _events = [];
-          }
-        } else {
-          _events = [];
-        }
-        _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = result['message'];
-      });
-    }
+  } else {
+    setState(() {
+      _isLoading = false;
+      _errorMessage = result['message'] ?? 'Failed to load events';
+    });
   }
+}
 
   @override
   void dispose() {

@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'auth_storage_service.dart';
 
 class SessionService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
-
   static Future<Map<String, dynamic>> createSession({
     required String eventId,
     required String zoneId,
@@ -21,7 +20,7 @@ class SessionService {
     }
 
     final url = Uri.parse(
-      '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions',
+      '${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions',
     );
 
     try {
@@ -62,7 +61,7 @@ class SessionService {
     }
 
     final url = Uri.parse(
-      '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions',
+      '${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions',
     );
 
     try {
@@ -107,7 +106,7 @@ class SessionService {
     }
 
     final url = Uri.parse(
-      '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId',
+      '${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId',
     );
 
     try {
@@ -149,7 +148,7 @@ class SessionService {
     }
 
     final url = Uri.parse(
-      '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId',
+      '${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId',
     );
 
     try {

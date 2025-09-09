@@ -36,21 +36,16 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
       _isRegularAdmin = result['isRegularAdmin'] ?? false;
       _isLoading = false;
       
-      // Debug output
-      print('UnifiedDashboard - isSystemAdmin: $_isSystemAdmin');
-      print('UnifiedDashboard - isRegularAdmin: $_isRegularAdmin');
       
-      // Set up pages based on user role
+    
       if (_isSystemAdmin || _isRegularAdmin) {
-        // Admin users see admin dashboard as home screen
         _pages = [
-          const AdminDashboard(), // Admin dashboard as home
+          const AdminDashboard(), 
           const UserEventsTabScreen(),
           const UserTicketsOverviewScreen(),
           const UserProfileScreen(),
         ];
       } else {
-        // Regular users see regular home screen
         _pages = [
           const UnifiedHomeScreen(), 
           const UserEventsTabScreen(),
@@ -75,12 +70,10 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
       );
     }
 
-    // For admin users, show the admin dashboard without bottom navigation
     if (_isSystemAdmin || _isRegularAdmin) {
       return const AdminDashboard();
     }
 
-    // For regular users, show the bottom navigation with regular pages
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,

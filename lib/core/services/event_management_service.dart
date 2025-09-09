@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'auth_storage_service.dart';
 
 class EventManagementService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
   static Future<Map<String, dynamic>> publishEvent(String eventId) async {
     try {
       final token = await AuthStorageService.getToken();
@@ -11,7 +11,7 @@ class EventManagementService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.post(
-        Uri.parse('$baseUrl/organizer/publish-event'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/publish-event'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ class EventManagementService {
       }
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/organizer/get-event-management-data?eventId=$eventId',
+          '${ApiConfig.baseUrl}/organizer/get-event-management-data?eventId=$eventId',
         ),
         headers: {
           'Authorization': 'Bearer $token',

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'auth_storage_service.dart';
 
 class AuthUser {
@@ -40,42 +41,43 @@ class AuthResult {
 }
 
 class AuthService {
-  static const String baseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'http://localhost:3001',
-  );
-
   static Future<String?> getToken() async {
     return await AuthStorageService.getToken();
   }
 
-  Future<AuthResult> login({required String email, required String password}) async {
-  final uri = Uri.parse('$baseUrl/api/v1/auth/login');
-  
-  try {
-    final resp = await http.post(
-      uri, 
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'password': password}),
-    ).timeout(Duration(seconds: 10));
+  Future<AuthResult> login({
+    required String email,
+    required String password,
+  }) async {
+    final uri = Uri.parse('${ApiConfig.baseUrl}/auth/login');
 
-    if (resp.body.contains('<!DOCTYPE') || resp.body.contains('<html')) {
-      return AuthResult(
-        isSuccess: false, 
-        message: "Server returned HTML. Check if backend is running on $baseUrl"
-      );
-    }
+    try {
+      final resp = await http
+          .post(
+            uri,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'email': email, 'password': password}),
+          )
+          .timeout(Duration(seconds: 10));
+
+      if (resp.body.contains('<!DOCTYPE') || resp.body.contains('<html')) {
+        return AuthResult(
+          isSuccess: false,
+          message:
+              "Server returned HTML. Check if backend is running on $ApiConfig.baseUrl",
+        );
+      }
       if (resp.statusCode == 200) {
         final data = jsonDecode(resp.body);
-        
+
         if (data['token'] != null && data['uid'] != null) {
           String customToken = data['token'];
           String uid = data['uid'];
-        
+
           final me = await meWithToken(customToken);
           if (me.isSuccess && me.user != null) {
             await AuthStorageService.saveSession(
-              token: customToken, 
+              token: customToken,
               role: me.user!.role,
               name: me.user!.name,
               email: me.user!.email,
@@ -88,11 +90,20 @@ class AuthService {
               token: customToken,
             );
           }
-          return AuthResult(isSuccess: false, message: "Failed to get user details");
+          return AuthResult(
+            isSuccess: false,
+            message: "Failed to get user details",
+          );
         }
-        return AuthResult(isSuccess: false, message: "Invalid response format: ${resp.body}");
+        return AuthResult(
+          isSuccess: false,
+          message: "Invalid response format: ${resp.body}",
+        );
       } else {
-        return AuthResult(isSuccess: false, message: "Login failed: ${resp.statusCode} - ${resp.body}");
+        return AuthResult(
+          isSuccess: false,
+          message: "Login failed: ${resp.statusCode} - ${resp.body}",
+        );
       }
     } catch (e) {
       return AuthResult(isSuccess: false, message: "Failed to connect: $e");
@@ -104,21 +115,21 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    final uri = Uri.parse('$baseUrl/api/v1/auth/signup');
+    final uri = Uri.parse('${ApiConfig.baseUrl}/auth/signup');
     try {
       final resp = await http.post(
-        uri, 
+        uri,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'name': name, 'email': email, 'password': password}),
       );
 
       if (resp.statusCode == 201) {
         final data = jsonDecode(resp.body);
-        
+
         if (data['token'] != null && data['uid'] != null) {
           String token = data['token'];
           String uid = data['uid'];
-        
+
           final me = await meWithToken(token);
           if (me.isSuccess && me.user != null) {
             await AuthStorageService.saveSession(
@@ -135,11 +146,20 @@ class AuthService {
               token: token,
             );
           }
-          return AuthResult(isSuccess: false, message: "Failed to get user details after signup");
+          return AuthResult(
+            isSuccess: false,
+            message: "Failed to get user details after signup",
+          );
         }
-        return AuthResult(isSuccess: false, message: "No token received in signup response");
+        return AuthResult(
+          isSuccess: false,
+          message: "No token received in signup response",
+        );
       } else {
-        return AuthResult(isSuccess: false, message: "Signup failed: ${resp.statusCode} - ${resp.body}");
+        return AuthResult(
+          isSuccess: false,
+          message: "Signup failed: ${resp.statusCode} - ${resp.body}",
+        );
       }
     } catch (e) {
       return AuthResult(isSuccess: false, message: "Signup failed: $e");
@@ -154,8 +174,8 @@ class AuthService {
     return meWithToken(token);
   }
 
-Future<AuthResult> meWithToken(String token) async {
-    final uri = Uri.parse('$baseUrl/api/v1/auth/me');
+  Future<AuthResult> meWithToken(String token) async {
+    final uri = Uri.parse('${ApiConfig.baseUrl}/auth/me');
     try {
       final resp = await http.get(
         uri,

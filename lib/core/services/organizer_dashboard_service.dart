@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'auth_storage_service.dart';
 
 class OrganizerDashboardService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
   static Future<Map<String, dynamic>> checkApprovalStatus() async {
     try {
       final token = await AuthStorageService.getToken();
@@ -11,7 +11,7 @@ class OrganizerDashboardService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.get(
-        Uri.parse('$baseUrl/organizer/check-approval'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/check-approval'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ class OrganizerDashboardService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.patch(
-        Uri.parse('$baseUrl/organizer/update-popup-status'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/update-popup-status'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ class OrganizerDashboardService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.post(
-        Uri.parse('$baseUrl/organizer/submit-event-request'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/submit-event-request'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ class OrganizerDashboardService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.get(
-        Uri.parse('$baseUrl/organizer/get-assigned-events'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/get-assigned-events'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ class OrganizerDashboardService {
         'isOrganizer': false,
       };
     }
-    final url = Uri.parse('$baseUrl/organizer/check-approval');
+    final url = Uri.parse('${ApiConfig.baseUrl}/organizer/check-approval');
     try {
       final response = await http.get(
         url,
@@ -227,7 +227,7 @@ class OrganizerDashboardService {
         return {'success': false, 'message': 'Not authenticated'};
       }
       final response = await http.post(
-        Uri.parse('$baseUrl/organizer/publish-event'),
+        Uri.parse('${ApiConfig.baseUrl}/organizer/publish-event'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -258,7 +258,7 @@ class OrganizerDashboardService {
       }
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/organizer/get-event-management-data?eventId=$eventId',
+          '${ApiConfig.baseUrl}/organizer/get-event-management-data?eventId=$eventId',
         ),
         headers: {
           'Authorization': 'Bearer $token',

@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
+import 'package:event_management_app1/core/config/api_config.dart';
 
 class ProfileService {
-  static const String _baseUrl = "http://localhost:3001/api/v1";
-
   static Future<Map<String, String>> _getAuthHeaders() async {
     final token = await AuthStorageService.getToken();
 
@@ -23,7 +22,7 @@ class ProfileService {
   static Future<bool> checkAuthentication() async {
     try {
       final headers = await _getAuthHeaders();
-      final url = Uri.parse('$_baseUrl/auth/check');
+      final url = Uri.parse('${ApiConfig.baseUrl}/auth/check');
       final response = await http.get(url, headers: headers);
       return response.statusCode == 200;
     } catch (e) {
@@ -34,7 +33,7 @@ class ProfileService {
   static Future<Map<String, dynamic>> getUserProfile() async {
     try {
       final headers = await _getAuthHeaders();
-      final url = Uri.parse('$_baseUrl/profile');
+      final url = Uri.parse('${ApiConfig.baseUrl}/user/profile');
       final response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {

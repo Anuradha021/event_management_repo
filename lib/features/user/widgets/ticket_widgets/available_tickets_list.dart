@@ -28,7 +28,7 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
   @override
   void initState() {
     super.initState();
-    print("🎫 AvailableTicketsList initialized for event: ${widget.eventId}");
+    print("AvailableTicketsList initialized for event: ${widget.eventId}");
     _loadTicketTypes();
   }
 

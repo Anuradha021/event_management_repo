@@ -71,7 +71,7 @@ class TrackListWidget extends StatelessWidget {
                 : null,
             onTap: () => onTrackTap(trackId, track),
             trailing: SizedBox(
-              width: 80,
+              width: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

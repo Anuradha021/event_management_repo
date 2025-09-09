@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import '../../features/events/models/ticket_model.dart';
 
 class TicketService {
-    static final String baseUrl = 'http://localhost:3001/api/v1';
-        
-
   static Future<Map<String, dynamic>> _authenticatedRequest(
     String endpoint, {
     String method = 'GET',
@@ -20,7 +18,7 @@ class TicketService {
         return {'success': false, 'message': 'No token found'};
       }
 
-      final url = Uri.parse('$baseUrl/$endpoint');
+      final url = Uri.parse('${ApiConfig.baseUrl}/$endpoint');
 
       final headers = {
         'Content-Type': 'application/json',

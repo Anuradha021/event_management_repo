@@ -1,11 +1,9 @@
-import 'package:event_management_app1/core/services/session_service.dart';
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SessionPanelService {
-  static final String baseUrl = SessionService.baseUrl;
-
   static Future<List<Map<String, dynamic>>> loadZones(String eventId) async {
     try {
       final token = await AuthStorageService.getToken();
@@ -13,7 +11,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-      final url = Uri.parse('$baseUrl/zones?eventId=$eventId');
+      final url = Uri.parse('${ApiConfig.baseUrl}/zones?eventId=$eventId');
       
       final response = await http.get(
         url,
@@ -48,7 +46,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-      final url = Uri.parse('$baseUrl/tracks?eventId=$eventId&zoneId=$zoneId');
+      final url = Uri.parse('${ApiConfig.baseUrl}/tracks?eventId=$eventId&zoneId=$zoneId');
       
       final response = await http.get(
         url,
@@ -87,7 +85,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-     final url = Uri.parse('$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions');
+     final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions');
       
       final response = await http.get(
         url,
@@ -129,7 +127,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-      final url = Uri.parse('$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions');
+      final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions');
       
       final response = await http.post(
         url,
@@ -172,7 +170,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-     final url = Uri.parse('$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
+     final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
       
       final response = await http.put(
         url,
@@ -210,7 +208,7 @@ class SessionPanelService {
         throw Exception('No authentication token');
       }
 
-       final url = Uri.parse('$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
+       final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
       
       final response = await http.delete(
         url,

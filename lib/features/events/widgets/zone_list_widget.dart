@@ -62,7 +62,7 @@ class ZoneListWidget extends StatelessWidget {
                 : null,
             onTap: () => onZoneTap(zoneId, zone),
             trailing: SizedBox(
-              width: 80,
+              width: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

@@ -2,6 +2,7 @@ import 'package:event_management_app1/features/admin/screens/admin_setup.dart';
 import 'package:event_management_app1/features/auth/screens/login_screen.dart';
 import 'package:event_management_app1/features/auth/screens/sign_up_screen.dart';
 import 'package:event_management_app1/features/auth/screens/welcome_screen.dart';
+import 'package:event_management_app1/features/user/screens/tickets/user_tickets_overview_screen.dart';
 import 'package:event_management_app1/features/user/screens/unified_dashboard.dart';
 import 'package:event_management_app1/core/config/firebase_options.dart';
 import 'package:event_management_app1/core/config/app_theme.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
         '/dashboard': (context) => const UnifiedDashboard(),
+        '/my-tickets': (context) => UserTicketsOverviewScreen(),
       },
     );
   }

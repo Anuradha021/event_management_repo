@@ -2,6 +2,7 @@ import 'package:event_management_app1/core/services/zone_service.dart';
 import 'package:event_management_app1/features/events/widgets/zone_list_widget.dart';
 import 'package:event_management_app1/features/organizer/screens/zones/zone_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:event_management_app1/features/organizer/widgets/create_zone_dialog.dart';
 import '../../widgets/panel_header.dart';
 import '../../widgets/delete_confirmation_dialog.dart';
 
@@ -88,53 +89,12 @@ class _ZonePanelState extends State<ZonePanel> {
   }
 
   void _showCreateZoneDialog(BuildContext context) {
-    final titleController = TextEditingController();
-    final descController = TextEditingController();
-
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Create New Zone'),
-        contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
-        content: SizedBox(
-          width: 300,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Zone Name *',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: descController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 3,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => _createZone(context, titleController.text, descController.text),
-            child: const Text('Create'),
-          ),
-        ],
+      builder: (context) => CreateZoneDialog(
+        onCreate: (title, description) => _createZone(context, title, description),
       ),
-    ).then((_) {
-      titleController.dispose();
-      descController.dispose();
-    });
+    );
   }
 
   Future<void> _createZone(BuildContext context, String title, String description) async {

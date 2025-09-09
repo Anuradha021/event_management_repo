@@ -1,73 +1,85 @@
 import 'dart:convert';
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:http/http.dart' as http;
 
-
 class EventService {
-    static final String baseUrl = 'http://localhost:3001/api/v1';
   static Future<Map<String, dynamic>> _authenticatedRequest(
-    String endpoint, {
-    String method = 'GET',
-    Map<String, dynamic>? body,
-  }) async {
-    final token = await AuthStorageService.getToken();
-    if (token == null) {
-      return {
-        'success': false,
-        'message': 'No authentication token',
-        'data': null,
-      };
-    }
-    final url = Uri.parse("$baseUrl/$endpoint");
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+  String endpoint, {
+  String method = 'GET',
+  Map<String, dynamic>? body,
+}) async {
+  final token = await AuthStorageService.getToken();
+  if (token == null) {
+    return {
+      'success': false,
+      'message': 'No authentication token',
+      'data': null,
     };
-    try {
-      http.Response response;
-      switch (method.toUpperCase()) {
-        case 'POST':
-          response = await http.post(
-            url,
-            headers: headers,
-            body: jsonEncode(body),
-          );
-          break;
-        case 'PUT':
-          response = await http.put(
-            url,
-            headers: headers,
-            body: jsonEncode(body),
-          );
-          break;
-        case 'PATCH':
-          response = await http.patch(
-            url,
-            headers: headers,
-            body: jsonEncode(body),
-          );
-          break;
-        case 'DELETE':
-          response = await http.delete(url, headers: headers);
-          break;
-        default:
-          response = await http.get(url, headers: headers);
-      }
-      final decoded = jsonDecode(response.body);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return {'success': true, 'data': decoded, 'message': 'OK'};
+  }
+  final url = Uri.parse("${ApiConfig.baseUrl}/$endpoint");
+  final headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+  try {
+    http.Response response;
+    switch (method.toUpperCase()) {
+      case 'POST':
+        response = await http.post(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+        break;
+      case 'PUT':
+        response = await http.put(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+        break;
+      case 'PATCH':
+        response = await http.patch(
+          url,
+          headers: headers,
+          body: jsonEncode(body),
+        );
+        break;
+      case 'DELETE':
+        response = await http.delete(url, headers: headers);
+        break;
+      default:
+        response = await http.get(url, headers: headers);
+    }
+    
+    final decoded = jsonDecode(response.body);
+    
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (decoded['success'] == true) {
+        return {
+          'success': true, 
+          'data': decoded['data'], 
+          'message': 'OK'
+        };
       } else {
         return {
           'success': false,
-          'message':
-              decoded['message'] ?? 'Server error: ${response.statusCode}',
+          'message': decoded['error'] ?? 'Backend returned unsuccessful response',
           'data': null,
         };
       }
-    } catch (e) {
-      return {'success': false, 'message': 'Network error: $e', 'data': null};
+    } else {
+      return {
+        'success': false,
+        'message': decoded['message'] ?? decoded['error'] ?? 'Server error: ${response.statusCode}',
+        'data': null,
+      };
     }
+  } catch (e) {
+    return {'success': false, 'message': 'Network error: $e', 'data': null};
   }
+}
 
   static Future<Map<String, dynamic>> getPublishedEvents({
     String? search,

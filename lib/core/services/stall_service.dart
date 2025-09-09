@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 
 class StallApiService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
-
   static Future<Map<String, dynamic>> createStall(
     String eventId,
     String zoneId,
@@ -16,7 +15,7 @@ class StallApiService {
       final token = await AuthStorageService.getToken();
       final response = await http.post(
         Uri.parse(
-          '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/stalls',
+          '${ApiConfig.baseUrl}/events/$eventId/zones/$zoneId/tracks/$trackId/stalls',
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +51,7 @@ class StallApiService {
       final token = await AuthStorageService.getToken();
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/stalls',
+          '${ApiConfig.baseUrl}/events/$eventId/zones/$zoneId/tracks/$trackId/stalls',
         ),
         headers: {'Authorization': 'Bearer $token'},
       );
@@ -93,7 +92,7 @@ class StallApiService {
       final token = await AuthStorageService.getToken();
       final response = await http.put(
         Uri.parse(
-          '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
+          '${ApiConfig.baseUrl}/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +124,7 @@ class StallApiService {
 
       final response = await http.delete(
         Uri.parse(
-          '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
+          '${ApiConfig.baseUrl}/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
         ),
         headers: {'Authorization': 'Bearer $token'},
       );
@@ -174,7 +173,7 @@ class StallApiService {
       final token = await AuthStorageService.getToken();
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
+          '${ApiConfig.baseUrl}/events/$eventId/zones/$zoneId/tracks/$trackId/stalls/$stallId',
         ),
         headers: {'Authorization': 'Bearer $token'},
       );

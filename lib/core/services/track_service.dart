@@ -1,10 +1,9 @@
 import 'dart:convert';
+import 'package:event_management_app1/core/config/api_config.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class TrackService {
-  static final String baseUrl = 'http://localhost:3001/api/v1';
-
   static Future<List<Map<String, dynamic>>> getTracks(
     String eventId,
     String zoneId,
@@ -14,7 +13,7 @@ class TrackService {
       throw Exception('No authentication token');
     }
 
-    final url = Uri.parse('$baseUrl/tracks?eventId=$eventId&zoneId=$zoneId');
+    final url = Uri.parse('${ApiConfig.baseUrl}/tracks?eventId=$eventId&zoneId=$zoneId');
 
     try {
       final response = await http.get(
@@ -53,7 +52,7 @@ class TrackService {
       return {'success': false, 'message': 'No authentication token'};
     }
 
-    final url = Uri.parse('$baseUrl/tracks');
+    final url = Uri.parse('${ApiConfig.baseUrl}/tracks');
 
     try {
       final response = await http.post(
@@ -93,7 +92,7 @@ class TrackService {
       return {'success': false, 'message': 'No authentication token'};
     }
 
-    final url = Uri.parse('$baseUrl/tracks/$trackId');
+    final url = Uri.parse('${ApiConfig.baseUrl}/tracks/$trackId');
 
     try {
       final response = await http.put(
@@ -133,7 +132,7 @@ class TrackService {
 
     try {
       final url = Uri.parse(
-        '$baseUrl/tracks/$trackId?eventId=$eventId&zoneId=$zoneId',
+        '${ApiConfig.baseUrl}/tracks/$trackId?eventId=$eventId&zoneId=$zoneId',
       );
 
       final response = await http.delete(

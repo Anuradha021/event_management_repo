@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 class DeleteConfirmationDialog extends StatelessWidget {
   final String itemType;
   final String itemName;

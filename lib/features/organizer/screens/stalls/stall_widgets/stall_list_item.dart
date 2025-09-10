@@ -1,3 +1,4 @@
+import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,10 +25,10 @@ class StallListItem extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.deepPurple.withValues(alpha: 0.1),
+            color: AppTheme.primaryColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.store, color: Colors.deepPurple),
+          child: const Icon(Icons.store),
         ),
         title: Text(
           stallData['name']?.toString() ?? 'Unnamed Stall',
@@ -47,7 +48,7 @@ class StallListItem extends StatelessWidget {
               ),
             if (onDelete != null)
               IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(Icons.delete,),
                 onPressed: onDelete,
                 tooltip: 'Delete Stall',
               ),

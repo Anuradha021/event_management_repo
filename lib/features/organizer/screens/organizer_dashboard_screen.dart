@@ -1,6 +1,5 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
-import 'package:event_management_app1/features/organizer/widgets/quick_actions_section.dart';
-import 'package:event_management_app1/features/events/widgets/welcome_header.dart';
+import 'package:event_management_app1/features/organizer/screens/events/quick_actions_section.dart';
 import 'package:event_management_app1/core/services/organizer_dashboard_service.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +74,6 @@ class _OrganizerDashboardScreenState extends State<OrganizerDashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            WelcomeHeader(),
             SizedBox(height: AppTheme.spacingXL),
             QuickActionsSection(),
           ],

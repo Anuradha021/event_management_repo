@@ -1,6 +1,6 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/features/organizer/screens/events/organizer_event_details_screen.dart';
-import 'package:event_management_app1/features/user/screens/user_event_details_screen.dart';
+import 'package:event_management_app1/features/organizer/screens/events/user_event_details_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';

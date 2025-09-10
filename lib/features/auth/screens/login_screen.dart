@@ -2,7 +2,7 @@ import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/features/user/screens/unified_dashboard.dart';
 import 'package:event_management_app1/features/admin/screens/admin_dashboard.dart';
 import 'package:event_management_app1/features/auth/screens/sign_up_screen.dart';
-import 'package:event_management_app1/features/events/widgets/form_container_widget.dart';
+import 'package:event_management_app1/features/auth/auth_widgets/form_container_widget.dart';
 import 'package:event_management_app1/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
 import 'package:event_management_app1/core/services/event_service.dart';
 import 'package:event_management_app1/features/user/widgets/user_widgets/user_screen_widget.dart';
-import 'package:event_management_app1/features/user/widgets/category_filter.dart';
-import 'package:event_management_app1/features/user/widgets/search_bar.dart';
+import 'package:event_management_app1/features/user/screens/home_screen_widgets/category_filter.dart';
+import 'package:event_management_app1/features/user/screens/home_screen_widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../core/config/app_theme.dart';
 

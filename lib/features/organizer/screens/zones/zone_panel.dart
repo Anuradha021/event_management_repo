@@ -1,8 +1,8 @@
 import 'package:event_management_app1/core/services/zone_service.dart';
-import 'package:event_management_app1/features/events/widgets/zone_list_widget.dart';
+import 'package:event_management_app1/features/organizer/screens/zones/zone_widgets/zone_list_widget.dart';
 import 'package:event_management_app1/features/organizer/screens/zones/zone_detail_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:event_management_app1/features/organizer/widgets/create_zone_dialog.dart';
+import 'package:event_management_app1/features/organizer/screens/zones/zone_widgets/create_zone_dialog.dart';
 import '../../widgets/panel_header.dart';
 import '../../widgets/delete_confirmation_dialog.dart';
 

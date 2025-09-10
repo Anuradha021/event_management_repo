@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/config/app_theme.dart';
-import 'tickets/customer_ticket_purchase_screen.dart';
+import '../../../../core/config/app_theme.dart';
+import '../../../user/screens/tickets/customer_ticket_purchase_screen.dart';
 
 class UserEventDetailsScreen extends StatefulWidget {
   final String eventId;

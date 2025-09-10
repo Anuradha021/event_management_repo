@@ -1,5 +1,5 @@
 import 'package:event_management_app1/features/organizer/screens/zones/zone_panel.dart';
-import 'package:event_management_app1/features/organizer/screens/sessions/session_panel.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_panel_screen.dart';
 import 'package:event_management_app1/features/organizer/screens/stalls/stall_panel.dart';
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/features/organizer/screens/tickets/organizer_tickets_screen.dart';
@@ -262,7 +262,7 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
               children: [
                 ZonePanel(eventId: widget.eventId),
                 TrackPanel(eventId: widget.eventId),
-                SessionPanel(eventId: widget.eventId),
+                SessionPanelScreen(eventId: widget.eventId),
                 StallPanel(eventId: widget.eventId),
                 OrganizerTicketsScreen(
                   eventId: widget.eventId,

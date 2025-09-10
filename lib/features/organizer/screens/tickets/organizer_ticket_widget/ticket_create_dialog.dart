@@ -75,8 +75,6 @@ class _TicketCreateDialogState extends State<TicketCreateDialog> {
   }
 
   try {
-    print("Creating ticket type for event: ${widget.eventId}"); // ✅ Debug
-    print("Name: ${_nameController.text}, Price: ${_priceController.text}, Quantity: ${_quantityController.text}"); // ✅ Debug
     
     final result = await TicketService.createTicketType(
       eventId: widget.eventId,
@@ -85,9 +83,6 @@ class _TicketCreateDialogState extends State<TicketCreateDialog> {
       price: double.parse(_priceController.text),
       totalQuantity: int.parse(_quantityController.text),
     );
-
-    print("Create API Response: $result"); // ✅ Debug
-
     if (result['success'] == true) {
       if (mounted) {
         Navigator.pop(context);
@@ -97,7 +92,7 @@ class _TicketCreateDialogState extends State<TicketCreateDialog> {
       _showSnackBar('Failed to create: ${result['message']}', isError: true);
     }
   } catch (e) {
-    print("Create error: $e"); // ✅ Debug
+  
     _showSnackBar('Error: ${e.toString()}', isError: true);
   }
 }

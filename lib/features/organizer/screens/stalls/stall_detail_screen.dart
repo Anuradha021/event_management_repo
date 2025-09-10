@@ -105,7 +105,7 @@ class _StallDetailScreenState extends State<StallDetailScreen> {
                                 width: 48,
                                 height: 48,
                                 decoration: BoxDecoration(
-                                  color: Colors.deepPurple.withOpacity(0.1),
+                                  color: AppTheme.primaryColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: const Icon(Icons.storefront, color: Colors.deepPurple),

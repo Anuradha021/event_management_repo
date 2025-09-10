@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../models/session_model.dart';
 
 class SessionInfoCard extends StatelessWidget {
   final String title;
@@ -34,10 +35,13 @@ class SessionInfoCard extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.1),
+                    color: Colors.blue, 
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.schedule, color: Colors.deepPurple),
+                  child: const Icon(
+                    Icons.schedule,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(

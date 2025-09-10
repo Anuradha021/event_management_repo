@@ -1,17 +1,16 @@
-import 'package:event_management_app1/features/organizer/screens/sessions/session_info_card.dart';
-import 'package:event_management_app1/features/organizer/screens/sessions/update_session_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/core/services/session_service.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/models/session_model.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_info_card.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/update_session_dialog.dart';
+import 'package:flutter/material.dart';
+import '../../../../core/config/app_theme.dart';
 
 class SessionDetailScreen extends StatefulWidget {
   final String eventId;
   final String zoneId;
   final String trackId;
   final String sessionId;
-  final Map<String, dynamic> sessionData;
-  final DateTime startTime;
-  final DateTime endTime;
+  final SessionModel session;
 
   const SessionDetailScreen({
     super.key,
@@ -19,9 +18,7 @@ class SessionDetailScreen extends StatefulWidget {
     required this.zoneId,
     required this.trackId,
     required this.sessionId,
-    required this.sessionData,
-    required this.startTime,
-    required this.endTime,
+    required this.session,
   });
 
   @override
@@ -29,31 +26,33 @@ class SessionDetailScreen extends StatefulWidget {
 }
 
 class _SessionDetailScreenState extends State<SessionDetailScreen> {
-  Map<String, dynamic> _currentSessionData = {};
+  late SessionModel _currentSession;
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _currentSessionData = Map<String, dynamic>.from(widget.sessionData);
+    _currentSession = widget.session;
   }
 
   Future<void> _refreshSessionData() async {
     setState(() => _isLoading = true);
     try {
-      final sessions = await SessionService.getSessions(
+      final sessionsData = await SessionService.getSessions(
         widget.eventId,
         widget.zoneId,
         widget.trackId,
       );
       
-      final session = sessions.firstWhere(
+      final sessionMap = sessionsData.firstWhere(
         (s) => s['id'] == widget.sessionId,
         orElse: () => {},
       );
 
-      if (session.isNotEmpty && mounted) {
-        setState(() => _currentSessionData = session);
+      if (sessionMap.isNotEmpty && mounted) {
+        setState(() {
+          _currentSession = SessionModel.fromMap(sessionMap, widget.sessionId);
+        });
       }
     } catch (e) {
       if (mounted) {
@@ -107,10 +106,6 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final title = _currentSessionData['title'] ?? 'No Title';
-    final description = _currentSessionData['description'] ?? 'No Description';
-    final speaker = _currentSessionData['speaker'] ?? 'Not specified';
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.primaryColor,
@@ -127,11 +122,11 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
               child: Column(
                 children: [
                   SessionInfoCard(
-                    title: title,
-                    description: description,
-                    speaker: speaker,
-                    startTime: widget.startTime,
-                    endTime: widget.endTime,
+                    title: _currentSession.title,
+                    description: _currentSession.description,
+                    speaker: _currentSession.speaker,
+                    startTime: _currentSession.startTime,
+                    endTime: _currentSession.endTime,
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -140,9 +135,9 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
                       onPressed: () => showDialog(
                         context: context,
                         builder: (ctx) => UpdateSessionDialog(
-                          currentTitle: title,
-                          currentDescription: description,
-                          currentSpeaker: speaker,
+                          currentTitle: _currentSession.title,
+                          currentDescription: _currentSession.description,
+                          currentSpeaker: _currentSession.speaker,
                           onUpdate: _updateSession,
                         ),
                       ),

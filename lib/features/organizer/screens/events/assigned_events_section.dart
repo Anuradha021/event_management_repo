@@ -1,5 +1,5 @@
 
-import 'package:event_management_app1/features/user/widgets/user_widgets/event_card.dart';
+import 'package:event_management_app1/features/organizer/screens/events/event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/core/services/organizer_dashboard_service.dart';
 

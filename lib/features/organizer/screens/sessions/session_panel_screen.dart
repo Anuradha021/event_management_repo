@@ -1,28 +1,29 @@
+import 'package:event_management_app1/core/services/session_panel_service.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/models/session_model.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_detail_screen.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/create_session_dialog.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_list_item.dart';
+import 'package:event_management_app1/features/organizer/widgets/delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/services/session_panel_service.dart';
 import '../../widgets/panel_header.dart';
-import '../../../events/widgets/zone_track_filter.dart';
-import '../../../events/widgets/session_list_widget.dart';
-import '../../widgets/delete_confirmation_dialog.dart';
-import '../../../events/widgets/create_session_dialog.dart';
+import '../zones/zone_widgets/zone_track_filter.dart';
 
-class SessionPanel extends StatefulWidget {
+class SessionPanelScreen extends StatefulWidget {
   final String eventId;
   
-  const SessionPanel({
+  const SessionPanelScreen({
     super.key,
     required this.eventId,
   });
 
   @override
-  State<SessionPanel> createState() => _SessionPanelState();
+  State<SessionPanelScreen> createState() => _SessionPanelScreenState();
 }
 
-class _SessionPanelState extends State<SessionPanel> {
-  String? _selectedZoneId ;
-  String? _selectedTrackId ;
+class _SessionPanelScreenState extends State<SessionPanelScreen> {
+  String? _selectedZoneId;
+  String? _selectedTrackId;
   List<Map<String, dynamic>> _zones = [];
   List<Map<String, dynamic>> _tracks = [];
   bool _isLoading = false;
@@ -72,16 +73,21 @@ class _SessionPanelState extends State<SessionPanel> {
     }
   }
 
-  Future<List<Map<String, dynamic>>> _getSessionsFuture() async {
+  Future<List<SessionModel>> _getSessionsFuture() async {
     if (_selectedZoneId == null || _selectedTrackId == null) {
       return [];
     }
 
-    return await SessionPanelService.getSessions(
+    final sessionsData = await SessionPanelService.getSessions(
       widget.eventId,
       _selectedZoneId!,
       _selectedTrackId!,
     );
+    
+    
+    return sessionsData.map((sessionMap) {
+      return SessionModel.fromMap(sessionMap, sessionMap['id'] ?? '');
+    }).toList();
   }
 
   Future<void> _refreshSessions() async {
@@ -162,7 +168,7 @@ class _SessionPanelState extends State<SessionPanel> {
       );
     }
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
+    return FutureBuilder<List<SessionModel>>(
       future: _getSessionsFuture(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -185,17 +191,23 @@ class _SessionPanelState extends State<SessionPanel> {
           );
         }
         
-        return SessionListWidget(
-          sessions: sessions,
-          onSessionTap: _navigateToSessionDetail,
-          onSessionEdit: _navigateToSessionDetail,
-          onSessionDelete: _handleDeleteSession,
+        return ListView.builder(
+          itemCount: sessions.length,
+          itemBuilder: (context, index) {
+            final session = sessions[index];
+            return SessionListItem(
+              session: session,
+              onTap: () => _navigateToSessionDetail(session),
+              onEdit: () => _navigateToSessionDetail(session),
+              onDelete: () => _handleDeleteSession(session.id),
+            );
+          },
         );
       },
     );
   }
 
-  void _navigateToSessionDetail(String sessionId, Map<String, dynamic> sessionData, DateTime startTime, DateTime endTime) {
+  void _navigateToSessionDetail(SessionModel session) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -203,10 +215,8 @@ class _SessionPanelState extends State<SessionPanel> {
           eventId: widget.eventId,
           zoneId: _selectedZoneId!,
           trackId: _selectedTrackId!,
-          sessionId: sessionId,
-          sessionData: sessionData,
-          startTime: startTime,
-          endTime: endTime,
+          sessionId: session.id,
+          session: session, 
         ),
       ),
     );

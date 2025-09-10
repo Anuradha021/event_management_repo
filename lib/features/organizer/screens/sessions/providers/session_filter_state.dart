@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/services/session_panel_service.dart';
+import '../../../../../core/services/session_panel_service.dart';
 
 class SessionFilterState extends ChangeNotifier {
   String? _selectedZoneId;

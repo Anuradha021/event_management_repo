@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import '../models/ticket_model.dart';
+import '../../../events/models/ticket_model.dart';
 
 class TicketQrSection extends StatelessWidget {
   final Ticket ticket;

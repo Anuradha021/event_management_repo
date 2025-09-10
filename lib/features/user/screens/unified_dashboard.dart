@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/config/app_theme.dart';
 import 'home_screen.dart'; 
-import 'user_events_tab_screen.dart';
+import '../../organizer/screens/events/user_events_tab_screen.dart';
 import 'tickets/user_tickets_overview_screen.dart';
 import 'userProfile/user_profile_screen.dart';
 import '../../admin/screens/admin_dashboard.dart';

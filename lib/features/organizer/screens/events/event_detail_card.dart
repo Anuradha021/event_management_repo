@@ -1,4 +1,4 @@
-import 'package:event_management_app1/features/organizer/widgets/detail_row.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/event_detail_row.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -112,8 +112,8 @@ class EventDetailCard extends StatelessWidget {
       DateTime time;
       if (eventTime is String) {
         time = DateTime.parse(eventTime);
-      } else if (eventTime.runtimeType.toString().contains('Timestamp')) {
-        time = (eventTime as Timestamp).toDate();
+      } else if (eventTime is Timestamp) {
+        time = eventTime.toDate();
       } else if (eventTime is DateTime) {
         time = eventTime;
       } else {

@@ -1,6 +1,6 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
-import 'package:event_management_app1/features/user/widgets/user_widgets/assigned_events_section.dart';
-import 'package:event_management_app1/features/user/widgets/user_widgets/create_event_request_card.dart';
+import 'package:event_management_app1/features/organizer/screens/events/assigned_events_section.dart';
+import 'package:event_management_app1/features/organizer/screens/events/create_event_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/core/services/organizer_dashboard_service.dart';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';

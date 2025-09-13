@@ -1,10 +1,10 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/core/utils/date_utils.dart';
-import 'package:event_management_app1/features/events/models/ticket_model.dart';
+import 'package:event_management_app1/features/models/ticket_model.dart';
 import 'package:event_management_app1/features/user/screens/tickets/customer_ticket_details_screen.dart';
 import 'package:event_management_app1/features/user/widgets/ticket_widgets/available_tickets_list.dart';
 
-import 'package:event_management_app1/features/user/widgets/event_info_card.dart';
+import 'package:event_management_app1/features/user/widgets/ticket_widgets/event_info_card.dart';
 import 'package:event_management_app1/core/services/ticket_service.dart';
 import 'package:flutter/material.dart';
 

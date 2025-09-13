@@ -1,5 +1,5 @@
 import 'package:event_management_app1/core/services/session_panel_service.dart';
-import 'package:event_management_app1/features/organizer/screens/sessions/models/session_model.dart';
+import 'package:event_management_app1/features/models/session_model.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_detail_screen.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/create_session_dialog.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_list_item.dart';
@@ -11,7 +11,7 @@ import '../zones/zone_widgets/zone_track_filter.dart';
 
 class SessionPanelScreen extends StatefulWidget {
   final String eventId;
-  
+
   const SessionPanelScreen({
     super.key,
     required this.eventId,
@@ -83,8 +83,8 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
       _selectedZoneId!,
       _selectedTrackId!,
     );
-    
-    
+
+
     return sessionsData.map((sessionMap) {
       return SessionModel.fromMap(sessionMap, sessionMap['id'] ?? '');
     }).toList();
@@ -174,13 +174,13 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
-        
+
         final sessions = snapshot.data ?? [];
-        
+
         if (sessions.isEmpty) {
           return const Center(
             child: Text(
@@ -190,7 +190,7 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
             ),
           );
         }
-        
+
         return ListView.builder(
           itemCount: sessions.length,
           itemBuilder: (context, index) {
@@ -240,7 +240,7 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
         _selectedTrackId!,
         sessionId,
       );
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Session deleted successfully')),

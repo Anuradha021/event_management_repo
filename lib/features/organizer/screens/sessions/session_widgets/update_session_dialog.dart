@@ -65,7 +65,7 @@ class _UpdateSessionDialogState extends State<UpdateSessionDialog> {
       if (time != null && mounted) {
         setState(() {
           _startTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-         
+
           if (_endTime != null && _endTime!.isBefore(_startTime!)) {
             _endTime = null;
           }
@@ -97,7 +97,7 @@ class _UpdateSessionDialogState extends State<UpdateSessionDialog> {
 
       if (time != null && mounted) {
         final endTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-        
+
         if (endTime.isAfter(_startTime!)) {
           setState(() {
             _endTime = endTime;

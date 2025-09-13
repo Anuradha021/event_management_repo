@@ -35,14 +35,14 @@ class _ZoneDetailScreenState extends State<ZoneDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     try {
       final zones = await ZoneService.getZones(widget.eventId);
       final zone = zones.firstWhere(
         (zone) => zone['id'] == widget.zoneId,
         orElse: () => {},
       );
-      
+
       if (zone.isNotEmpty && mounted) {
         setState(() {
           _currentZoneData = zone;
@@ -104,7 +104,7 @@ class _ZoneDetailScreenState extends State<ZoneDetailScreen> {
       name,
       description,
     );
-    
+
     if (result['success']) {
       await _refreshZoneData();
       if (mounted) {

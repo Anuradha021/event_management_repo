@@ -21,11 +21,16 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
   bool _isSystemAdmin = false;
   bool _isRegularAdmin = false;
   bool _isLoading = true;
+  final GlobalKey<HomeScreenState> _homeScreenKey = GlobalKey<HomeScreenState>();
 
   @override
   void initState() {
     super.initState();
     _checkUserRole();
+  }
+
+  void _refreshHomeScreen() {
+    _homeScreenKey.currentState?.loadEvents();
   }
 
   Future<void> _checkUserRole() async {
@@ -41,14 +46,12 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
       if (_isSystemAdmin || _isRegularAdmin) {
         _pages = [
           const AdminDashboard(), 
-          const DashboardActions(),
-          const UserTicketsOverviewScreen(),
-          const UserProfileScreen(),
+          
         ];
       } else {
         _pages = [
-          const UnifiedHomeScreen(), 
-          const DashboardActions(),
+          HomeScreen(key: _homeScreenKey), 
+          DashboardActions(onEventPublished: _refreshHomeScreen),
           const UserTicketsOverviewScreen(),
           const UserProfileScreen(),
         ];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/session_model.dart';
+import '../../../../models/session_model.dart';
 
 class SessionListItem extends StatelessWidget {
   final SessionModel session;

@@ -1,7 +1,8 @@
 import 'package:event_management_app1/core/services/session_service.dart';
-import 'package:event_management_app1/features/organizer/screens/sessions/models/session_model.dart';
+import 'package:event_management_app1/features/models/session_model.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_info_card.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/update_session_dialog.dart';
+import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_update_button.dart'; // Add this import
 import 'package:flutter/material.dart';
 import '../../../../core/config/app_theme.dart';
 
@@ -43,7 +44,7 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
         widget.zoneId,
         widget.trackId,
       );
-      
+
       final sessionMap = sessionsData.firstWhere(
         (s) => s['id'] == widget.sessionId,
         orElse: () => {},
@@ -131,28 +132,16 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
                     endTime: _currentSession.endTime,
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (ctx) => UpdateSessionDialog(
-                          currentTitle: _currentSession.title,
-                          currentDescription: _currentSession.description,
-                          currentSpeaker: _currentSession.speaker,
-                          currentStartTime: _currentSession.startTime,
-                          currentEndTime: _currentSession.endTime,
-                          onUpdate: _updateSession,
-                        ),
-                      ),
-                      icon: const Icon(Icons.edit),
-                      label: const Text('Update Session'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                  SessionUpdateButton( 
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (ctx) => UpdateSessionDialog(
+                        currentTitle: _currentSession.title,
+                        currentDescription: _currentSession.description,
+                        currentSpeaker: _currentSession.speaker,
+                        currentStartTime: _currentSession.startTime,
+                        currentEndTime: _currentSession.endTime,
+                        onUpdate: _updateSession,
                       ),
                     ),
                   ),

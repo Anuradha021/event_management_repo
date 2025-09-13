@@ -1,6 +1,6 @@
 import 'package:event_management_app1/core/utils/date_utils.dart';
-import 'package:event_management_app1/features/events/models/ticket_model.dart';
-import 'package:event_management_app1/features/organizer/widgets/ticket_widgets/ticket_qr_section.dart';
+import 'package:event_management_app1/features/models/ticket_model.dart';
+import 'package:event_management_app1/features/organizer/screens/tickets/organizer_ticket_widget/ticket_qr_section.dart';
 import 'package:event_management_app1/features/user/widgets/ticket_widgets/download_button.dart';
 import 'package:event_management_app1/features/user/widgets/ticket_widgets/ticket_detail_row.dart';
 import 'package:flutter/material.dart';

@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class OrganizerEventDetailsScreen extends StatefulWidget {
   final String eventId;
   final Map<String, dynamic> eventData;
+  final VoidCallback? onEventPublished;
 
   const OrganizerEventDetailsScreen({
     super.key,
     required this.eventId,
     required this.eventData,
+    this.onEventPublished,
   });
 
   @override
@@ -125,6 +127,12 @@ class _OrganizerEventDetailsScreenState
                           _eventData['title'] ??
                           _eventData['eventTitle'] ??
                           'Event',
+                      onEventPublished: () {
+                        _loadEventDetails();
+                        if (widget.onEventPublished != null) {
+                          widget.onEventPublished!();
+                        }
+                      },
                     ),
                   ],
                 ),

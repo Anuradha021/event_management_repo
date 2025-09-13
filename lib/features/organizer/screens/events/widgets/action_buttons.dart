@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class ActionButtons extends StatelessWidget {
   final String eventId;
   final String eventTitle;
+  final VoidCallback onEventPublished;
   const ActionButtons({
     super.key,
     required this.eventId,
     required this.eventTitle,
+    required this.onEventPublished,
   });
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ActionButtons extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EventManagementScreen(eventId: eventId)),
+                MaterialPageRoute(builder: (context) => EventManagementScreen(eventId: eventId, onEventPublished: onEventPublished)),
               );
             },
             icon: const Icon(Icons.settings),

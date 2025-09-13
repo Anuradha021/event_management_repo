@@ -9,10 +9,12 @@ import 'package:event_management_app1/features/organizer/screens/tracks/track_pa
 
 class EventManagementScreen extends StatefulWidget {
   final String eventId;
+  final VoidCallback? onEventPublished;
 
   EventManagementScreen({
     super.key,
     required this.eventId,
+    this.onEventPublished,
   }) : assert(eventId.isNotEmpty);
 
   @override
@@ -110,6 +112,9 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
             ),
           );
           _refreshAllData();
+          if (widget.onEventPublished != null) {
+            widget.onEventPublished!();
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -149,7 +154,7 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
         children: [
           _buildTabButton(0, Icons.map_outlined, 'Zones'),
           _buildTabButton(1, Icons.timeline_outlined, 'Tracks'),
-          _buildTabButton(2, Icons.schedule_outlined, 'Sessions'),
+          _buildTabButton(2, Icons.schedule_outlined, 'Session'),
           _buildTabButton(3, Icons.store_outlined, 'Stalls'),
           _buildTabButton(4, Icons.confirmation_number_outlined, 'Tickets'),
         ],

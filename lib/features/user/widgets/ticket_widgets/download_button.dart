@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/config/app_theme.dart';
-import '../../../events/models/ticket_model.dart';
+import '../../../models/ticket_model.dart';
 
 class DownloadButton extends StatelessWidget {
   final Ticket ticket;

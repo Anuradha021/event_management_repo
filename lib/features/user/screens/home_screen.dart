@@ -4,13 +4,14 @@ import 'package:event_management_app1/features/user/screens/home_screen_widgets/
 import 'package:flutter/material.dart';
 import '../../../core/config/app_theme.dart';
 
-class UnifiedHomeScreen extends StatefulWidget {
-  const UnifiedHomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<UnifiedHomeScreen> createState() => _UnifiedHomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
-class _UnifiedHomeScreenState extends State<UnifiedHomeScreen> {
+
+class HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   List<dynamic> _events = [];
@@ -20,10 +21,10 @@ class _UnifiedHomeScreenState extends State<UnifiedHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadEvents();
+    loadEvents();
   }
 
-  Future<void> _loadEvents() async {
+  Future<void> loadEvents() async {
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -79,7 +80,7 @@ class _UnifiedHomeScreenState extends State<UnifiedHomeScreen> {
             controller: _searchController,
             onChanged: (value) {
               setState(() => _searchQuery = value.toLowerCase());
-              _loadEvents(); 
+              loadEvents(); 
             },
           ),
           Expanded(

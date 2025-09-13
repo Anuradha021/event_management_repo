@@ -3,7 +3,6 @@ import 'package:event_management_app1/features/user/screens/home_screen_widgets/
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/core/services/organizer_dashboard_service.dart';
 import 'package:event_management_app1/core/utils/date_utils.dart'; 
-import 'package:event_management_app1/features/organizer/screens/events/widgets/event_card.dart';
 
 class AssignedEventsList extends StatefulWidget {
   final bool showAsSection; 

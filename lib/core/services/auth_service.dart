@@ -45,70 +45,75 @@ class AuthService {
     return await AuthStorageService.getToken();
   }
 
-  Future<AuthResult> login({
-    required String email,
-    required String password,
-  }) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}/auth/login');
+Future<AuthResult> login({
+  required String email,
+  required String password,
+}) async {
+  final uri = Uri.parse('${ApiConfig.baseUrl}/auth/login');
 
-    try {
-      final resp = await http
-          .post(
-            uri,
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'email': email, 'password': password}),
-          )
-          .timeout(Duration(seconds: 10));
+  try {
+    final resp = await http
+        .post(
+          uri,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email, 'password': password}),
+        )
+        .timeout(Duration(seconds: 10));
 
-      if (resp.body.contains('<!DOCTYPE') || resp.body.contains('<html')) {
-        return AuthResult(
-          isSuccess: false,
-          message:
-              "Server returned HTML. Check if backend is running on $ApiConfig.baseUrl",
-        );
-      }
-      if (resp.statusCode == 200) {
-        final data = jsonDecode(resp.body);
+    print('Login response status: ${resp.statusCode}');
+    print('Login response body: ${resp.body}');
 
-        if (data['token'] != null && data['uid'] != null) {
-          String customToken = data['token'];
-          String uid = data['uid'];
+    if (resp.body.contains('<!DOCTYPE') || resp.body.contains('<html')) {
+      return AuthResult(
+        isSuccess: false,
+        message: "Server returned HTML. Check if backend is running on $ApiConfig.baseUrl",
+      );
+    }
+    
+    if (resp.statusCode == 200) {
+      final data = jsonDecode(resp.body);
+      print('Login response data: $data');
 
-          final me = await meWithToken(customToken);
-          if (me.isSuccess && me.user != null) {
-            await AuthStorageService.saveSession(
-              token: customToken,
-              role: me.user!.role,
-              name: me.user!.name,
-              email: me.user!.email,
-              userId: me.user!.id,
-            );
-            return AuthResult(
-              isSuccess: true,
-              message: "Login successful",
-              user: me.user,
-              token: customToken,
-            );
-          }
+      if (data['token'] != null && data['uid'] != null) {
+        String customToken = data['token'];
+        String uid = data['uid'];
+
+        final me = await meWithToken(customToken);  
+        if (me.isSuccess && me.user != null) {
+          await AuthStorageService.saveSession(
+            token: customToken,
+            role: me.user!.role,
+            name: me.user!.name,
+            email: me.user!.email,
+            userId: me.user!.id,
+          );
           return AuthResult(
-            isSuccess: false,
-            message: "Failed to get user details",
+            isSuccess: true,
+            message: "Login successful",
+            user: me.user,
+            token: customToken,
           );
         }
         return AuthResult(
           isSuccess: false,
-          message: "Invalid response format: ${resp.body}",
-        );
-      } else {
-        return AuthResult(
-          isSuccess: false,
-          message: "Login failed: ${resp.statusCode} - ${resp.body}",
+          message: "Failed to get user details: ${me.message}",
         );
       }
-    } catch (e) {
-      return AuthResult(isSuccess: false, message: "Failed to connect: $e");
+      return AuthResult(
+        isSuccess: false,
+        message: "Invalid response format: ${resp.body}",
+      );
+    } else {
+      return AuthResult(
+        isSuccess: false,
+        message: "Login failed: ${resp.statusCode} - ${resp.body}",
+      );
     }
+  } catch (e) {
+    print('Login error: $e');
+    return AuthResult(isSuccess: false, message: "Failed to connect: $e");
   }
+}
 
   Future<AuthResult> signup({
     required String name,
@@ -174,47 +179,44 @@ class AuthService {
     return meWithToken(token);
   }
 
-  Future<AuthResult> meWithToken(String token) async {
-    final uri = Uri.parse('${ApiConfig.baseUrl}/auth/me');
-    try {
-      final resp = await http.get(
-        uri,
-        headers: {'Authorization': 'Bearer $token'},
-      );
+Future<AuthResult> meWithToken(String token) async {
+  final uri = Uri.parse('${ApiConfig.baseUrl}/auth/me');
+  try {
+    final resp = await http.get(
+      uri,
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-      if (resp.statusCode == 200) {
-        final data = jsonDecode(resp.body);
+    if (resp.statusCode == 200) {
+      final data = jsonDecode(resp.body);
 
-        if (data['uid'] != null) {
-          final role = (data['role'] ?? 'USER').toString().toUpperCase();
-          final isSystemAdmin =
-              data['isSystemAdmin'] == true ||
-              data['email'] == 'admin21@event.com';
-          final effectiveRole = isSystemAdmin ? 'SYSTEM_ADMIN' : role;
+      if (data['uid'] != null) {
+        final role = (data['role'] ?? 'USER').toString().toUpperCase();
+        final isSystemAdmin = data['isSystemAdmin'] == true ||
+            data['email'] == 'admin21@event.com' ||
+            role == 'SYSTEM_ADMIN'; 
 
-          return AuthResult(
-            isSuccess: true,
-            message: "Success",
-            user: AuthUser(
-              id: data['uid'],
-              email: data['email'],
-              name: data['name'],
-              role: effectiveRole,
-            ),
-            token: token,
-          );
-        }
+        final effectiveRole = isSystemAdmin ? 'ADMIN' : role; 
+
+        return AuthResult(
+          isSuccess: true,
+          message: "Success",
+          user: AuthUser(
+            id: data['uid'],
+            email: data['email'],
+            name: data['name'],
+            role: effectiveRole, 
+          ),
+          token: token,
+        );
       }
-      return AuthResult(
-        isSuccess: false,
-        message: "Failed to fetch user data: ${resp.body}",
-      );
-    } catch (e) {
-      return AuthResult(isSuccess: false, message: "Error fetching user: $e");
     }
+    return AuthResult(
+      isSuccess: false,
+      message: "Failed to fetch user data: ${resp.body}",
+    );
+  } catch (e) {
+    return AuthResult(isSuccess: false, message: "Error fetching user: $e");
   }
-
-  Future<void> logout() async {
-    await AuthStorageService.clear();
-  }
+}
 }

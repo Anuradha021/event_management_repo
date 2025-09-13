@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/config/app_theme.dart';
-import '../../../events/models/ticket_model.dart';
+import '../../../models/ticket_model.dart';
 import '../../../../core/services/ticket_service.dart';
-import '../../widgets/ticket_detail_card.dart';
+import '../../widgets/ticket_widgets/ticket_detail_card.dart';
 
 class UserTicketsOverviewScreen extends StatelessWidget {
   const UserTicketsOverviewScreen({super.key});
@@ -11,7 +11,7 @@ class UserTicketsOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tickets.................'),
+        title: const Text('My Tickets'),
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
       ),

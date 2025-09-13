@@ -1,11 +1,10 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:flutter/material.dart';
 
-
-class ZoneUpdateButton extends StatelessWidget {
+class SessionUpdateButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const ZoneUpdateButton({
+  const SessionUpdateButton({
     super.key,
     required this.onPressed,
   });
@@ -17,7 +16,7 @@ class ZoneUpdateButton extends StatelessWidget {
       child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: const Icon(Icons.edit),
-        label: const Text('Update Zone'),
+        label: const Text('Update Session'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
           foregroundColor: Colors.white,

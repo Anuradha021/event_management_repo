@@ -95,7 +95,10 @@ class _ContactFormState extends State<ContactForm> {
               children: [
                 TextFormField(
                   controller: _eventTitleController,
-                  decoration: const InputDecoration(labelText: "Event Title"),
+                  decoration: const InputDecoration(
+                    labelText: "Event Title",
+                    border: OutlineInputBorder(),
+                  ),
                   validator: (value) => value!.isEmpty ? 'Required' : null,
                 ),
                 const SizedBox(height: 12),
@@ -103,6 +106,7 @@ class _ContactFormState extends State<ContactForm> {
                   controller: _eventDescController,
                   decoration: const InputDecoration(
                     labelText: "Event Description",
+                    border: OutlineInputBorder(),
                   ),
                   maxLines: 3,
                   validator: (value) => value!.isEmpty ? 'Required' : null,
@@ -112,6 +116,7 @@ class _ContactFormState extends State<ContactForm> {
                   controller: _organizerNameController,
                   decoration: const InputDecoration(
                     labelText: "Organizer Name",
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) => value!.isEmpty ? 'Required' : null,
                 ),
@@ -120,6 +125,7 @@ class _ContactFormState extends State<ContactForm> {
                   controller: _organizerEmailController,
                   decoration: const InputDecoration(
                     labelText: "Organizer Email",
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) => value!.isEmpty ? 'Required' : null,
                 ),
@@ -128,28 +134,48 @@ class _ContactFormState extends State<ContactForm> {
                   controller: _locationController,
                   decoration: const InputDecoration(
                     labelText: "Event Location",
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) => value!.isEmpty ? 'Required' : null,
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No date selected'
-                            : "Event Date: ${_selectedDate!.toLocal().toString().split(' ')[0]}",
-                      ),
+                // Date Picker with similar UI to other fields
+                InkWell(
+                  onTap: _pickDate,
+                  child: InputDecorator(
+                    decoration: const InputDecoration(
+                      labelText: "Event Date",
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
                     ),
-                    ElevatedButton(
-                      onPressed: _pickDate,
-                      child: const Text('Select Date'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedDate == null
+                              ? 'Select date'
+                              : "${_selectedDate!.toLocal().toString().split(' ')[0]}",
+                          style: TextStyle(
+                            color: _selectedDate == null
+                                ? Colors.grey[600]
+                                : Colors.black,
+                          ),
+                        ),
+                        Icon(
+                          Icons.calendar_today,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _submitRequest,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
                   child: const Text("Submit Request"),
                 ),
               ],

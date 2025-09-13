@@ -93,7 +93,7 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
                   );
                 },
                 icon: const Icon(Icons.shopping_cart),
-                label: const Text('Buy Ticket..........'),
+                label: const Text('Buy Ticket'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,

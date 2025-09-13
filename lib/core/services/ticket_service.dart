@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:event_management_app1/core/services/auth_storage_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:event_management_app1/core/config/api_config.dart';
-import '../../features/events/models/ticket_model.dart';
+import '../../features/models/ticket_model.dart';
 
 class TicketService {
   static Future<Map<String, dynamic>> _authenticatedRequest(
@@ -189,21 +188,32 @@ class TicketService {
     }
   }
 
-  static Stream<List<Ticket>> getUserTickets() async* {
+static Stream<List<Ticket>> getUserTickets() {
+  return Stream.periodic(const Duration(seconds: 2)).asyncMap((_) async {
     try {
-      final result = await _authenticatedRequest('tickets');
+      final token = await AuthStorageService.getToken();
+      if (token == null) {
+        return [];
+      }
+
+      final userId = await AuthStorageService.getCurrentUserId();
+      if (userId == null) {
+        return [];
+      }
+
+      final result = await _authenticatedRequest('tickets?userId=$userId');
 
       if (result['success'] == true) {
         final data = _extractDataFromResponse(result, 'tickets');
-        yield data.map((json) => Ticket.fromJson(json)).toList();
+        return data.map((json) => Ticket.fromJson(json)).toList();
       } else {
-        yield [];
+        return [];
       }
     } catch (e) {
-      yield [];
+      return [];
     }
-  }
-
+  });
+}
   static Future<Map<String, dynamic>> purchaseTicket({
     required String ticketTypeId,
     required String eventId,

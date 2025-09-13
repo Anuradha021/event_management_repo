@@ -12,7 +12,7 @@ class SessionPanelService {
       }
 
       final url = Uri.parse('${ApiConfig.baseUrl}/zones?eventId=$eventId');
-      
+
       final response = await http.get(
         url,
         headers: {
@@ -20,13 +20,13 @@ class SessionPanelService {
           'Authorization': 'Bearer $token',
         },
       );
-      
+
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
-        
+
         if (decoded['success'] == true) {
           final zones = decoded['data']?['zones'] ?? [];
-          
+
           return List<Map<String, dynamic>>.from(zones);
         } else {
           throw Exception(decoded['error'] ?? decoded['message'] ?? 'Failed to fetch zones');
@@ -47,7 +47,7 @@ class SessionPanelService {
       }
 
       final url = Uri.parse('${ApiConfig.baseUrl}/tracks?eventId=$eventId&zoneId=$zoneId');
-      
+
       final response = await http.get(
         url,
         headers: {
@@ -55,13 +55,13 @@ class SessionPanelService {
           'Authorization': 'Bearer $token',
         },
       );
-      
+
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
-        
+
         if (decoded['success'] == true) {
           final tracks = decoded['data']?['tracks'] ?? [];
-          
+
           return List<Map<String, dynamic>>.from(tracks);
         } else {
           throw Exception(decoded['error'] ?? decoded['message'] ?? 'Failed to fetch tracks');
@@ -86,7 +86,7 @@ class SessionPanelService {
       }
 
      final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions');
-      
+
       final response = await http.get(
         url,
         headers: {
@@ -128,7 +128,7 @@ class SessionPanelService {
       }
 
       final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions');
-      
+
       final response = await http.post(
         url,
         headers: {
@@ -136,7 +136,7 @@ class SessionPanelService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-         
+
           'title': title,
           'description': description,
           'speaker': speaker,
@@ -146,7 +146,7 @@ class SessionPanelService {
       );
 
       final decoded = jsonDecode(response.body);
-      
+
       if (response.statusCode != 201 || !decoded['success']) {
         throw Exception(decoded['error'] ?? decoded['message'] ?? 'Failed to create session');
       }
@@ -171,7 +171,7 @@ class SessionPanelService {
       }
 
      final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
-      
+
       final response = await http.put(
         url,
         headers: {
@@ -179,7 +179,7 @@ class SessionPanelService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-         
+
           'title': title,
           'description': description,
           'speaker': speaker,
@@ -187,7 +187,7 @@ class SessionPanelService {
       );
 
       final decoded = jsonDecode(response.body);
-      
+
       if (response.statusCode != 200 || !decoded['success']) {
         throw Exception(decoded['error'] ?? decoded['message'] ?? 'Failed to update session');
       }
@@ -209,7 +209,7 @@ class SessionPanelService {
       }
 
        final url = Uri.parse('${ApiConfig.baseUrl}/sessions/$eventId/zones/$zoneId/tracks/$trackId/sessions/$sessionId');
-      
+
       final response = await http.delete(
         url,
         headers: {
@@ -219,7 +219,7 @@ class SessionPanelService {
       );
 
       final decoded = jsonDecode(response.body);
-      
+
       if (response.statusCode != 200 || !decoded['success']) {
         throw Exception(decoded['error'] ?? decoded['message'] ?? 'Failed to delete session');
       }

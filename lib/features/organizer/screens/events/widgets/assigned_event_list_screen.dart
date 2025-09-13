@@ -3,7 +3,8 @@ import 'package:event_management_app1/features/organizer/screens/events/widgets/
 import 'package:event_management_app1/features/organizer/screens/events/organizer_event_details_screen.dart';
 
 class AssignedEventListScreen extends StatelessWidget {
-  const AssignedEventListScreen({super.key});
+  final VoidCallback? onEventPublished;
+  const AssignedEventListScreen({super.key, this.onEventPublished});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class AssignedEventListScreen extends StatelessWidget {
               builder: (_) => OrganizerEventDetailsScreen(
                 eventId: eventId.toString(),
                 eventData: event,
+                onEventPublished: onEventPublished,
               ),
             ),
           );

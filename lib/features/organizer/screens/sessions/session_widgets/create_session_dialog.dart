@@ -54,10 +54,6 @@ class _CreateSessionDialogState extends State<CreateSessionDialog> {
       if (time != null && mounted) {
         setState(() {
           _startTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-         
-          if (_endTime != null && _endTime!.isBefore(_startTime!)) {
-            _endTime = null;
-          }
         });
       }
     }
@@ -162,7 +158,7 @@ class _CreateSessionDialogState extends State<CreateSessionDialog> {
 
   String _formatDateTime(DateTime? dateTime) {
     if (dateTime == null) return 'Not selected';
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+    return dateTime.toIso8601String();
   }
 
   @override

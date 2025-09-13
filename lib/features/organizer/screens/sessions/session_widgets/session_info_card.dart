@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/session_model.dart';
+
 
 class SessionInfoCard extends StatelessWidget {
   final String title;

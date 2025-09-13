@@ -9,13 +9,14 @@ class EntryPointScreen extends StatelessWidget {
   const EntryPointScreen({super.key});
 
   Future<String> _getUserRole() async {
-   
-    final me = await AuthService().me();
-    if (me.isSuccess && me.user != null) {
-      return me.user!.role.toLowerCase();
-    }
-    return 'guest';
+  final me = await AuthService().me();
+  if (me.isSuccess && me.user != null) {
+
+    final role = me.user!.role.toUpperCase();
+    return role == 'SYSTEM_ADMIN' ? 'admin' : role.toLowerCase();
   }
+  return 'guest';
+}
 
   @override
   Widget build(BuildContext context) {

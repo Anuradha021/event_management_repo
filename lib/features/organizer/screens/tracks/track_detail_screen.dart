@@ -1,9 +1,10 @@
 import 'package:event_management_app1/core/services/track_service.dart';
+import 'package:event_management_app1/features/organizer/screens/tracks/track_widgets/track_update_button.dart';
+import 'package:event_management_app1/features/organizer/screens/tracks/track_widgets/track_update_dialog.dart';
 import 'package:flutter/material.dart';
 import '../zones/zone_widgets/zone_detail_app_bar.dart';
 import '../zones/zone_widgets/zone_info_card.dart';
-import '../zones/zone_widgets/zone_update_button.dart';
-import '../zones/zone_widgets/zone_update_dialog.dart';
+
 
 class TrackDetailScreen extends StatefulWidget {
   final String eventId;
@@ -37,20 +38,25 @@ class _TrackDetailScreenState extends State<TrackDetailScreen> {
     setState(() {
       _isLoading = true;
     });
-    
+
     try {
       final tracks = await TrackService.getTracks(widget.eventId, widget.zoneId);
       final track = tracks.firstWhere(
         (track) => track['id'] == widget.trackId,
         orElse: () => {},
       );
-      
+
       if (track.isNotEmpty && mounted) {
         setState(() {
           _currentTrackData = track;
         });
       }
     } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error refreshing track: $e')),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -79,7 +85,7 @@ class _TrackDetailScreenState extends State<TrackDetailScreen> {
                     description: description,
                   ),
                   const SizedBox(height: 24),
-                  ZoneUpdateButton(
+                  TrackUpdateButton( 
                     onPressed: () => _showUpdateDialog(trackName, description),
                   ),
                 ],
@@ -91,7 +97,7 @@ class _TrackDetailScreenState extends State<TrackDetailScreen> {
   void _showUpdateDialog(String currentName, String currentDescription) {
     showDialog(
       context: context,
-      builder: (context) => ZoneUpdateDialog(
+      builder: (context) => TrackUpdateDialog( // Use TrackUpdateDialog instead of ZoneUpdateDialog
         currentName: currentName,
         currentDescription: currentDescription,
         onUpdate: _handleTrackUpdate,
@@ -100,26 +106,36 @@ class _TrackDetailScreenState extends State<TrackDetailScreen> {
   }
 
   Future<void> _handleTrackUpdate(String name, String description) async {
-    final result = await TrackService.updateTrack(
-      widget.eventId,
-      widget.zoneId,
-      widget.trackId,
-      name,
-      description,
-    );
+    setState(() => _isLoading = true);
     
-    if (result['success']) {
-      await _refreshTrackData();
+    try {
+      final result = await TrackService.updateTrack(
+        widget.eventId,
+        widget.zoneId,
+        widget.trackId,
+        name,
+        description,
+      );
+
+      if (result['success']) {
+        await _refreshTrackData();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Track updated successfully')),
+          );
+        }
+      } else {
+        throw Exception(result['message'] ?? 'Failed to update track');
+      }
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Track updated successfully')),
+          SnackBar(content: Text('Error: ${e.toString()}')),
         );
       }
-    } else {
+    } finally {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${result['message']}')),
-        );
+        setState(() => _isLoading = false);
       }
     }
   }

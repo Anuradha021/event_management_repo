@@ -1,5 +1,5 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
-import 'package:event_management_app1/features/events/models/ticket_model.dart';
+import 'package:event_management_app1/features/models/ticket_model.dart';
 import 'package:event_management_app1/core/services/ticket_service.dart';
 import 'package:flutter/material.dart';
 

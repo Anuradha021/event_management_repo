@@ -19,46 +19,45 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> _signIn() async {
-    setState(() => _isSigning = true);
+  setState(() => _isSigning = true);
 
-    try {
-      final authResult = await AuthService().login(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+  try {
+    final authResult = await AuthService().login(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
 
-      if (!mounted) return;
+    if (!mounted) return;
 
-      if (authResult.isSuccess && authResult.user != null) {
-        final role = authResult.user!.role;
-
-        if (role == 'ADMIN') {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const AdminDashboard()),
-            (_) => false,
-          );
-        } else {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => const UnifiedDashboard()),
-            (_) => false,
-          );
-        }
+    if (authResult.isSuccess && authResult.user != null) {
+      final role = authResult.user!.role;
+      if (role == 'ADMIN' || role == 'SYSTEM_ADMIN') {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminDashboard()),
+          (_) => false,
+        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authResult.message ?? "Login failed")),
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const UnifiedDashboard()),
+          (_) => false,
         );
       }
-    } catch (e) {
-      if (!mounted) return;
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login failed: $e")),
+        SnackBar(content: Text(authResult.message ?? "Login failed")),
       );
-    } finally {
-      if (mounted) setState(() => _isSigning = false);
     }
+  } catch (e) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Login failed: $e")),
+    );
+  } finally {
+    if (mounted) setState(() => _isSigning = false);
   }
+}
 
   @override
   void dispose() {

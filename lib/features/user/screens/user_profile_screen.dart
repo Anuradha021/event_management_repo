@@ -4,7 +4,7 @@ import 'package:event_management_app1/features/user/widgets/user_profile_widgets
 import 'package:event_management_app1/features/user/widgets/user_profile_widgets/profile_header.dart';
 import 'package:event_management_app1/features/user/widgets/user_profile_widgets/profile_info_card.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/config/app_theme.dart';
+import '../../../core/config/app_theme.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});

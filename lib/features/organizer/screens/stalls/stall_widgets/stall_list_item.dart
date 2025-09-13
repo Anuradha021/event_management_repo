@@ -45,12 +45,14 @@ class StallListItem extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 onPressed: onEdit,
                 tooltip: 'Edit Stall',
+                color: Colors.blue,
               ),
             if (onDelete != null)
               IconButton(
                 icon: const Icon(Icons.delete,),
                 onPressed: onDelete,
                 tooltip: 'Delete Stall',
+                color: Colors.red,
               ),
           ],
         ),

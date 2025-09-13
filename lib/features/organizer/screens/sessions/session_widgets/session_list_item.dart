@@ -26,10 +26,12 @@ class SessionListItem extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: onEdit,
+            color: Colors.blue,
           ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: onDelete,
+            color: Colors.red,
           ),
         ],
       ),

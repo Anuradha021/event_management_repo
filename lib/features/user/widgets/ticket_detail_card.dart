@@ -1,3 +1,4 @@
+import 'package:event_management_app1/core/utils/date_utils.dart';
 import 'package:event_management_app1/features/events/models/ticket_model.dart';
 import 'package:event_management_app1/features/organizer/widgets/ticket_widgets/ticket_qr_section.dart';
 import 'package:event_management_app1/features/user/widgets/ticket_widgets/download_button.dart';
@@ -37,7 +38,7 @@ class TicketCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: _getStatusColor(ticket.status),
+                    color: AppDateUtils.getStatusColor(ticket.status), 
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -52,55 +53,23 @@ class TicketCard extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-
             TicketDetailRow(label: "Event", value: ticket.eventTitle),
             TicketDetailRow(
                 label: "Location", value: eventData['location'] ?? ''),
             TicketDetailRow(
-                label: "Date", value: _formatEventDate(eventData['eventDate'])),
+                label: "Date", value: AppDateUtils.formatEventDate(eventData['eventDate'])),
             TicketDetailRow(
                 label: "Price", value: "\$${ticket.price.toStringAsFixed(2)}"),
             TicketDetailRow(
-                label: "Purchase Date", value: _formatDate(ticket.purchaseDate)),
+                 label: "Purchase Date", value: AppDateUtils.formatPurchaseDate(ticket.purchaseDate)),
 
             const SizedBox(height: 20),
-
-         
             TicketQrSection(ticket: ticket),
-
             const SizedBox(height: 20),
-
             DownloadButton(ticket: ticket),
           ],
         ),
       ),
     );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'active':
-        return Colors.green;
-      case 'used':
-        return Colors.blue;
-      case 'cancelled':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
-  }
-
-  String _formatEventDate(dynamic eventDate) {
-    if (eventDate == null) return "TBD";
-    try {
-      if (eventDate is String) return eventDate;
-      return eventDate.toString();
-    } catch (_) {
-      return "TBD";
-    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app1/core/services/admin_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,9 +22,34 @@ class EventDetailsScreen extends StatelessWidget {
         if (date != null) {
           return DateFormat('dd-MMM-yy').format(date);
         }
+      } else if (dateValue is Timestamp) {
+        final date = dateValue.toDate();
+        return DateFormat('dd-MMM-yy').format(date);
+      } else if (dateValue is Map) {
+        final date = DateTime.fromMillisecondsSinceEpoch(dateValue['_seconds'] * 1000);
+        return DateFormat('dd-MMM-yy').format(date);
       }
-      if (dateValue is DateTime) {
-        return DateFormat('dd-MMM-yy').format(dateValue);
+    } catch (_) {
+      return 'N/A';
+    }
+    return 'N/A';
+  }
+
+  String _formatTime(dynamic dateValue) {
+    if (dateValue == null) return 'N/A';
+
+    try {
+      if (dateValue is String) {
+        final date = DateTime.tryParse(dateValue);
+        if (date != null) {
+          return DateFormat('hh:mm a').format(date);
+        }
+      } else if (dateValue is Timestamp) {
+        final date = dateValue.toDate();
+        return DateFormat('hh:mm a').format(date);
+      } else if (dateValue is Map) {
+        final date = DateTime.fromMillisecondsSinceEpoch(dateValue['_seconds'] * 1000);
+        return DateFormat('hh:mm a').format(date);
       }
     } catch (_) {
       return 'N/A';
@@ -106,6 +132,8 @@ class EventDetailsScreen extends StatelessWidget {
             Text('Organizer Email: ${data['organizerEmail'] ?? 'N/A'}'),
             const SizedBox(height: 10),
             Text('Event Date: ${_formatDate(data['eventDate'])}'),
+            const SizedBox(height: 10),
+            Text('Event Time: ${_formatTime(data['eventDate'])}'),
             const SizedBox(height: 10),
             Text('Location: ${data['location'] ?? 'N/A'}'),
             const SizedBox(height: 10),

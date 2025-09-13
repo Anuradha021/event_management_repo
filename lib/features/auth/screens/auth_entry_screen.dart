@@ -1,7 +1,7 @@
-import 'package:event_management_app1/features/user/screens/user_bottom_nav.dart';
+import 'package:event_management_app1/features/organizer/screens/events/Event_full_screen.dart';
+import 'package:event_management_app1/features/user/screens/unified_dashboard.dart';
 import 'package:event_management_app1/features/admin/screens/admin_dashboard.dart';
-import 'package:event_management_app1/features/organizer/screens/organizer_dashboard_screen.dart';
-import 'package:event_management_app1/features/organizer/screens/events/event_request_form.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/event_request_form.dart';
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/core/services/auth_service.dart';
 
@@ -30,9 +30,9 @@ class EntryPointScreen extends StatelessWidget {
           case 'admin':
             return const AdminDashboard();
           case 'organizer':
-            return const OrganizerDashboardScreen();
+            return const DashboardActions();
           case 'user':
-            return const UserBottomNav();
+            return const UnifiedDashboard();
           default:
             return const ContactForm(isFromDashboard: false);
         }

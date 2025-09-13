@@ -2,7 +2,7 @@ import 'package:event_management_app1/features/organizer/screens/tickets/organiz
 import 'package:event_management_app1/features/organizer/screens/tickets/organizer_ticket_widget/ticket_create_dialog.dart';
 import 'package:event_management_app1/features/organizer/screens/tickets/organizer_ticket_widget/ticket_edit_dialog.dart';
 import 'package:event_management_app1/features/organizer/widgets/ticket_widgets/ticket_types_tab.dart';
-import 'package:event_management_app1/features/organizer/widgets/ticket_widgets/validate_ticket_tab.dart';
+import 'package:event_management_app1/features/organizer/screens/tickets/organizer_ticket_widget/validate_ticket_tab.dart';
 import 'package:event_management_app1/core/services/ticket_service.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/config/app_theme.dart';

@@ -11,7 +11,7 @@ class UserTicketsOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Tickets'),
+        title: const Text('My Tickets.................'),
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
       ),

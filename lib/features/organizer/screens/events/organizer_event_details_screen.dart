@@ -1,7 +1,7 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/core/services/organizer_event_service.dart';
-import 'package:event_management_app1/features/organizer/screens/events/event_detail_card.dart';
-import 'package:event_management_app1/features/user/widgets/user_widgets/action_buttons.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/event_detail_card.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/action_buttons.dart';
 import 'package:flutter/material.dart';
 
 class OrganizerEventDetailsScreen extends StatefulWidget {
@@ -57,7 +57,6 @@ class _OrganizerEventDetailsScreenState
         _isLoading = false;
       });
 
-      print('Extracted event data: $_eventData'); 
     } else {
       setState(() {
         _isLoading = false;
@@ -97,12 +96,6 @@ class _OrganizerEventDetailsScreenState
               icon: const Icon(Icons.publish),
               onPressed: () => _updateEventStatus('published'),
               tooltip: 'Publish Event',
-            ),
-          if (_eventData['status'] == 'published')
-            IconButton(
-              icon: const Icon(Icons.unpublished),
-              onPressed: () => _updateEventStatus('draft'),
-              tooltip: 'Unpublish Event',
             ),
           IconButton(
             icon: const Icon(Icons.refresh),

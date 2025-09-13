@@ -45,10 +45,6 @@ class _CustomerTicketDetailsScreenState
     try {
       
       final result = await TicketService.getUserTicketsForEvent(eventId).first;
-      if (result.isNotEmpty) {
-        for (var ticket in result) {
-        }
-      }
       
       return result;
     } catch (e) {
@@ -112,7 +108,7 @@ class _CustomerTicketDetailsScreenState
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Your purchased tickets will appear here.',
+                    'All purchased tickets will appear here.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey),
                   ),

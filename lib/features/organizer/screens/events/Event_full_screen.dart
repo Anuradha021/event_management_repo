@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/features/organizer/widgets/modern_card.dart';
-import 'package:event_management_app1/features/organizer/screens/events/event_request_form.dart';
-import 'package:event_management_app1/features/organizer/screens/events/assigned_event_list_screen.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/event_request_form.dart';
+import 'package:event_management_app1/features/organizer/screens/events/widgets/assigned_event_list_screen.dart';
 
-class QuickActionsSection extends StatelessWidget {
-  const QuickActionsSection({super.key});
+class DashboardActions extends StatelessWidget {
+  const DashboardActions({super.key});
 
   @override
   Widget build(BuildContext context) {

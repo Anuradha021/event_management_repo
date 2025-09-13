@@ -1,10 +1,10 @@
+import 'package:event_management_app1/features/organizer/screens/events/Event_full_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/config/app_theme.dart';
 import 'home_screen.dart'; 
-import '../../organizer/screens/events/user_events_tab_screen.dart';
 import 'tickets/user_tickets_overview_screen.dart';
-import 'userProfile/user_profile_screen.dart';
+import 'user_profile_screen.dart';
 import '../../admin/screens/admin_dashboard.dart';
 import '../../admin/screens/user_permission.dart';
 
@@ -41,14 +41,14 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
       if (_isSystemAdmin || _isRegularAdmin) {
         _pages = [
           const AdminDashboard(), 
-          const UserEventsTabScreen(),
+          const DashboardActions(),
           const UserTicketsOverviewScreen(),
           const UserProfileScreen(),
         ];
       } else {
         _pages = [
           const UnifiedHomeScreen(), 
-          const UserEventsTabScreen(),
+          const DashboardActions(),
           const UserTicketsOverviewScreen(),
           const UserProfileScreen(),
         ];

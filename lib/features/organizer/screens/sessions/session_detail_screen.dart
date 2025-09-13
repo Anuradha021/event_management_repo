@@ -67,7 +67,7 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
     }
   }
 
-  Future<void> _updateSession(String title, String desc, String speaker) async {
+  Future<void> _updateSession(String title, String desc, String speaker, DateTime? startTime, DateTime? endTime) async {
     setState(() => _isLoading = true);
     try {
       final result = await SessionService.updateSession(
@@ -78,6 +78,8 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
         title: title,
         description: desc,
         speaker: speaker,
+        startTime: startTime,
+        endTime: endTime,
       );
 
       if (result['success']) {
@@ -138,6 +140,8 @@ class _SessionDetailScreenState extends State<SessionDetailScreen> {
                           currentTitle: _currentSession.title,
                           currentDescription: _currentSession.description,
                           currentSpeaker: _currentSession.speaker,
+                          currentStartTime: _currentSession.startTime,
+                          currentEndTime: _currentSession.endTime,
                           onUpdate: _updateSession,
                         ),
                       ),

@@ -2,17 +2,14 @@ import 'package:event_management_app1/core/config/app_theme.dart';
 import 'package:event_management_app1/features/organizer/screens/events/event_management_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class ActionButtons extends StatelessWidget {
   final String eventId;
   final String eventTitle;
-
   const ActionButtons({
     super.key,
     required this.eventId,
     required this.eventTitle,
   });
-
   @override
   Widget build(BuildContext context) {
     return Row(

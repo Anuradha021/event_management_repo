@@ -18,7 +18,6 @@ class AvailableTicketsList extends StatefulWidget {
   @override
   State<AvailableTicketsList> createState() => _AvailableTicketsListState();
 }
-
 class _AvailableTicketsListState extends State<AvailableTicketsList> {
   List<TicketType> _ticketTypes = [];
   bool _isLoading = true;
@@ -31,7 +30,6 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
     print("AvailableTicketsList initialized for event: ${widget.eventId}");
     _loadTicketTypes();
   }
-
   Future<void> _loadTicketTypes() async {
     try {
       if (!_isRefreshing) {
@@ -40,21 +38,13 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
           _error = '';
         });
       }
-
-      
-      final result = await TicketService.getAvailableTickets(widget.eventId); 
-      
-    
-      
+      final result = await TicketService.getAvailableTickets(widget.eventId);
       setState(() {
         _ticketTypes = result;
         _isLoading = false;
         _isRefreshing = false;
       });
-      
-      
     } catch (e) {
-     
       setState(() {
         _error = 'Failed to load tickets: ${e.toString()}';
         _isLoading = false;
@@ -64,7 +54,6 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
   }
 
   Future<void> _refresh() async {
-   
     setState(() {
       _isRefreshing = true;
     });
@@ -73,8 +62,6 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -86,7 +73,6 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
     if (_ticketTypes.isEmpty) {
       return _buildEmptyState();
     }
-
     return RefreshIndicator(
       onRefresh: _refresh,
       child: ListView.builder(
@@ -95,9 +81,8 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
         itemBuilder: (context, index) {
           final ticketType = _ticketTypes[index];
           final isLoading = widget.loadingTickets.contains(ticketType.id);
-          final availableQuantity = ticketType.totalQuantity - ticketType.soldQuantity;
-
-         
+          final availableQuantity =
+              ticketType.totalQuantity - ticketType.soldQuantity;
 
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
@@ -115,19 +100,16 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  
+
                   if (ticketType.description.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         ticketType.description,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
+                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
                       ),
                     ),
-                  
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -141,35 +123,41 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
                       Text(
                         'Available: $availableQuantity',
                         style: TextStyle(
-                          color: availableQuantity > 0 ? Colors.green : Colors.red,
+                          color:
+                              availableQuantity > 0 ? Colors.green : Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
-                  
+
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: availableQuantity > 0 && !isLoading
-                          ? () => widget.onPurchase(ticketType)
-                          : null,
+                      onPressed:
+                          availableQuantity > 0 && !isLoading
+                              ? () => widget.onPurchase(ticketType)
+                              : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: availableQuantity > 0 
-                            ? AppTheme.primaryColor 
-                            : Colors.grey,
+                        backgroundColor:
+                            availableQuantity > 0
+                                ? AppTheme.primaryColor
+                                : Colors.grey,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text(
-                              availableQuantity > 0 
-                                  ? 'Purchase Ticket' 
-                                  : 'Sold Out',
-                              style: const TextStyle(fontSize: 16),
-                            ),
+                      child:
+                          isLoading
+                              ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                              : Text(
+                                availableQuantity > 0
+                                    ? 'Purchase Ticket'
+                                    : 'Sold Out',
+                                style: const TextStyle(fontSize: 16),
+                              ),
                     ),
                   ),
                 ],
@@ -180,36 +168,24 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
       ),
     );
   }
-
   Widget _buildErrorState() {
-   
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
             const Text(
               'Failed to load tickets',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               _error,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
@@ -227,34 +203,23 @@ class _AvailableTicketsListState extends State<AvailableTicketsList> {
   }
 
   Widget _buildEmptyState() {
-  
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.event_busy,
-              size: 64,
-              color: Colors.grey,
-            ),
+            const Icon(Icons.event_busy, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             const Text(
               'No Tickets Available',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(
               'There are no tickets available for this event at the moment.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: Colors.grey, fontSize: 14),
             ),
             const SizedBox(height: 16),
             ElevatedButton(

@@ -1,8 +1,5 @@
 import 'package:event_management_app1/features/organizer/screens/events/widgets/event_detail_row.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
 
 class EventDetailCard extends StatelessWidget {
   final Map<String, dynamic> eventData;
@@ -63,67 +60,11 @@ class EventDetailCard extends StatelessWidget {
               label: "Location",
               value: eventData['location'] ?? 'Location TBD',
             ),
-            const SizedBox(height: 12),
-            DetailRow(
-              icon: Icons.calendar_today,
-              label: "Date",
-              value: _formatEventDate(eventData['eventDate']),
-            ),
-            const SizedBox(height: 12),
-            DetailRow(
-              icon: Icons.access_time,
-              label: "Time",
-              value: _formatEventTime(eventData['eventTime']),
-            ),
-           
+
           ],
         ),
       ),
     );
-  }
-
-  String _formatEventDate(dynamic eventDate) {
-    if (eventDate == null) return 'Date TBD';
-
-    try {
-      DateTime date;
-      if (eventDate is String) {
-       
-        date = DateTime.parse(eventDate);
-      } else if (eventDate.runtimeType.toString().contains('Timestamp')) {
-     
-        date = (eventDate as Timestamp).toDate();
-      } else if (eventDate is DateTime) {
-        date = eventDate;
-      } else {
-        return 'Date TBD';
-      }
-
-      return DateFormat('EEEE, MMMM dd, yyyy').format(date);
-    } catch (e) {
-      return 'Date TBD';
-    }
-  }
-
-  String _formatEventTime(dynamic eventTime) {
-    if (eventTime == null) return 'Time TBD';
-
-    try {
-      DateTime time;
-      if (eventTime is String) {
-        time = DateTime.parse(eventTime);
-      } else if (eventTime is Timestamp) {
-        time = eventTime.toDate();
-      } else if (eventTime is DateTime) {
-        time = eventTime;
-      } else {
-        return 'Time TBD';
-      }
-
-      return DateFormat('h:mm a').format(time);
-    } catch (e) {
-      return 'Time TBD';
-    }
   }
 
   Color _getStatusColor(String? status) {

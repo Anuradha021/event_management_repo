@@ -3,7 +3,7 @@ import 'package:event_management_app1/features/organizer/screens/sessions/models
 import 'package:event_management_app1/features/organizer/screens/sessions/session_detail_screen.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/create_session_dialog.dart';
 import 'package:event_management_app1/features/organizer/screens/sessions/session_widgets/session_list_item.dart';
-import 'package:event_management_app1/features/organizer/widgets/delete_confirmation_dialog.dart';
+import 'package:event_management_app1/core/widgets/delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/panel_header.dart';
@@ -207,8 +207,8 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
     );
   }
 
-  void _navigateToSessionDetail(SessionModel session) {
-    Navigator.push(
+  void _navigateToSessionDetail(SessionModel session) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SessionDetailScreen(
@@ -220,6 +220,7 @@ class _SessionPanelScreenState extends State<SessionPanelScreen> {
         ),
       ),
     );
+    _refreshSessions();
   }
 
   void _handleDeleteSession(String sessionId) {

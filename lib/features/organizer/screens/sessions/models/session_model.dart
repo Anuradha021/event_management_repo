@@ -16,8 +16,7 @@ class SessionModel {
   });
 
   factory SessionModel.fromMap(Map<String, dynamic> data, String documentId) {
-    // Parse date/time from various possible formats
-    DateTime parseDateTime(dynamic dateTime) {
+ DateTime parseDateTime(dynamic dateTime) {
       if (dateTime == null) return DateTime.now();
       
       if (dateTime is DateTime) {
@@ -27,8 +26,7 @@ class SessionModel {
       if (dateTime is String) {
         return DateTime.parse(dateTime);
       }
-      
-      // Handle Firestore Timestamp
+  
       if (dateTime.runtimeType.toString().contains('Timestamp')) {
         return dateTime.toDate();
       }

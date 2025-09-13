@@ -1,7 +1,7 @@
+import 'package:event_management_app1/core/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/config/app_theme.dart';
 import '../../../user/screens/tickets/customer_ticket_purchase_screen.dart';
-
 class UserEventDetailsScreen extends StatefulWidget {
   final String eventId;
   final Map<String, dynamic> eventData;
@@ -30,7 +30,6 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Card(
               elevation: 4,
               child: Padding(
@@ -61,13 +60,7 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
                     _buildDetailRow(
                       Icons.calendar_today,
                       'Date',
-                      _formatEventDate(widget.eventData['eventDate']),
-                    ),
-                    const SizedBox(height: 12),
-                    _buildDetailRow(
-                      Icons.access_time,
-                      'Time',
-                      widget.eventData['eventTime'] ?? 'Time TBD',
+                      AppDateUtils.formatEventDate(widget.eventData['eventDate']),
                     ),
                     if (widget.eventData['eventType'] != null) ...[
                       const SizedBox(height: 12),
@@ -81,37 +74,9 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 20),
-            
-            if (widget.eventData['additionalInfo'] != null) ...[
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Additional Information',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        widget.eventData['additionalInfo'],
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-            
-           
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -128,7 +93,7 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
                   );
                 },
                 icon: const Icon(Icons.shopping_cart),
-                label: const Text('Buy Ticket'),
+                label: const Text('Buy Ticket..........'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryColor,
                   foregroundColor: Colors.white,
@@ -140,7 +105,7 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 20),
           ],
         ),
@@ -183,23 +148,5 @@ class _UserEventDetailsScreenState extends State<UserEventDetailsScreen> {
         ),
       ],
     );
-  }
-
-  String _formatEventDate(dynamic eventDate) {
-    if (eventDate == null) return 'Date TBD';
-    
-    try {
-      DateTime date;
-      if (eventDate is String) {
-        return eventDate;
-      } else if (eventDate.runtimeType.toString().contains('Timestamp')) {
-        date = eventDate.toDate();
-        return '${date.day}/${date.month}/${date.year}';
-      } else {
-        return eventDate.toString();
-      }
-    } catch (e) {
-      return 'Date TBD';
-    }
   }
 }

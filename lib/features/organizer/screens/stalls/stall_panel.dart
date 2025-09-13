@@ -4,7 +4,7 @@ import '../../../../core/services/stall_panel_service.dart';
 import '../../widgets/panel_header.dart';
 import '../zones/zone_widgets/zone_track_filter.dart';
 import 'stall_widgets/stall_list_view.dart';
-import '../../widgets/delete_confirmation_dialog.dart';
+import '../../../../core/widgets/delete_confirmation_dialog.dart';
 
 class StallPanel extends StatefulWidget {
   final String eventId;
@@ -130,8 +130,8 @@ class _StallPanelState extends State<StallPanel> {
     );
   }
 
-  void _navigateToStallDetail(String stallId, Map<String, dynamic> stallData) {
-    Navigator.push(
+  void _navigateToStallDetail(String stallId, Map<String, dynamic> stallData) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => StallDetailScreen(
@@ -143,6 +143,7 @@ class _StallPanelState extends State<StallPanel> {
         ),
       ),
     );
+    _refreshStalls();
   }
 
   void _handleDeleteStall(String stallId) {

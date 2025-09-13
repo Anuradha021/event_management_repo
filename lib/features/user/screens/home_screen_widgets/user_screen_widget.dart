@@ -1,4 +1,5 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
+import 'package:event_management_app1/core/utils/date_utils.dart';
 import 'package:event_management_app1/features/organizer/screens/events/organizer_event_details_screen.dart';
 import 'package:event_management_app1/features/organizer/screens/events/user_event_details_screen.dart';
 
@@ -15,20 +16,6 @@ class EventCard extends StatelessWidget {
     required this.eventData,
   });
 
-  String _formatEventDate(dynamic eventDate) {
-    if (eventDate == null) return 'Date TBD';
-    try {
-      if (eventDate is String) return eventDate;
-      if (eventDate.runtimeType.toString().contains('Timestamp')) {
-        final date = eventDate.toDate();
-        return '${date.day}/${date.month}/${date.year}';
-      }
-      return eventDate.toString();
-    } catch (_) {
-      return 'Date TBD';
-    }
-  }
-
   void _navigateToEventDetails(BuildContext context, bool isMyEvent) {
     Navigator.push(
       context,
@@ -43,7 +30,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final isMyEvent = user != null && eventData['organizerUid'] == user.uid;//checking event current user ka h ki nhi 
+    final isMyEvent = user != null && eventData['organizerUid'] == user.uid;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -70,14 +57,6 @@ class EventCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor,
                       borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      'MY EVENT',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
               ],
@@ -108,7 +87,7 @@ class EventCard extends StatelessWidget {
                 Icon(Icons.calendar_today, size: 16, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
-                  _formatEventDate(eventData['eventDate']),
+                   AppDateUtils.formatEventDate(eventData['eventDate']),
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ],

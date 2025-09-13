@@ -36,7 +36,6 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
       ),
     );
   }
-
   Future<void> _publishEvent() async {
     if (widget.eventId.isEmpty) {
       if (mounted) {

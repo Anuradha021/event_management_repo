@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/panel_header.dart';
 import '../zones/zone_widgets/zone_dropdown.dart';
 
-import '../../widgets/delete_confirmation_dialog.dart';
+import '../../../../core/widgets/delete_confirmation_dialog.dart';
 
 class TrackPanel extends StatefulWidget {
   final String eventId;
@@ -166,8 +166,8 @@ class _TrackPanelState extends State<TrackPanel> {
     );
   }
 
-  void _navigateToTrackDetail(String trackId, Map<String, dynamic> trackData) {
-    Navigator.push(
+  void _navigateToTrackDetail(String trackId, Map<String, dynamic> trackData) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => TrackDetailScreen(
@@ -178,6 +178,7 @@ class _TrackPanelState extends State<TrackPanel> {
         ),
       ),
     );
+    _loadTracks();
   }
 
   void _handleDeleteTrack(String trackId) {

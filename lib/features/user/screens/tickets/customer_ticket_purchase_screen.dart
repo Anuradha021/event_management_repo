@@ -1,4 +1,5 @@
 import 'package:event_management_app1/core/config/app_theme.dart';
+import 'package:event_management_app1/core/utils/date_utils.dart';
 import 'package:event_management_app1/features/events/models/ticket_model.dart';
 import 'package:event_management_app1/features/user/screens/tickets/customer_ticket_details_screen.dart';
 import 'package:event_management_app1/features/user/widgets/ticket_widgets/available_tickets_list.dart';
@@ -42,7 +43,7 @@ class _CustomerTicketPurchaseScreenState
           EventInfoCard(
             title: widget.eventTitle,
             location: widget.eventData['location'] ?? '',
-            date: _formatEventDate(widget.eventData['eventDate']),
+            date: AppDateUtils.formatEventDate(widget.eventData['eventDate']),
             
           ),
           
@@ -117,18 +118,4 @@ class _CustomerTicketPurchaseScreenState
     }
   }
 
-  String _formatEventDate(dynamic eventDate) {
-    if (eventDate == null) return 'Date TBD';
-
-    try {
-      if (eventDate is String) return eventDate;
-      if (eventDate.runtimeType.toString().contains('Timestamp')) {
-        final date = eventDate.toDate();
-        return '${date.day}/${date.month}/${date.year}';
-      }
-      return eventDate.toString();
-    } catch (_) {
-      return 'Date TBD';
-    }
-  }
 }

@@ -4,7 +4,7 @@ import 'package:event_management_app1/features/organizer/screens/zones/zone_deta
 import 'package:flutter/material.dart';
 import 'package:event_management_app1/features/organizer/screens/zones/zone_widgets/create_zone_dialog.dart';
 import '../../widgets/panel_header.dart';
-import '../../widgets/delete_confirmation_dialog.dart';
+import '../../../../core/widgets/delete_confirmation_dialog.dart';
 
 class ZonePanel extends StatefulWidget {
   final String eventId;
@@ -75,8 +75,8 @@ class _ZonePanelState extends State<ZonePanel> {
     );
   }
 
-  void _showZoneDetails(BuildContext context, String zoneId, Map<String, dynamic> zoneData) {
-    Navigator.push(
+  void _showZoneDetails(BuildContext context, String zoneId, Map<String, dynamic> zoneData) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ZoneDetailScreen(
@@ -86,6 +86,7 @@ class _ZonePanelState extends State<ZonePanel> {
         ),
       ),
     );
+    _loadZones();
   }
 
   void _showCreateZoneDialog(BuildContext context) {

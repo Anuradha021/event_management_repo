@@ -73,8 +73,8 @@ class _EventRequestListState extends State<EventRequestList> {
             title: Text(request['eventTitle'] ?? 'No title'),
             subtitle: Text('Organizer: ${request['organizerEmail'] ?? 'N/A'}'),
             trailing: Icon(Icons.chevron_right, color: Colors.grey[600]),
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder:
@@ -84,6 +84,7 @@ class _EventRequestListState extends State<EventRequestList> {
                       ),
                 ),
               );
+              _loadEventRequests();
             },
           ),
         );

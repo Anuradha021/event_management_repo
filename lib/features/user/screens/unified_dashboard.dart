@@ -1,4 +1,4 @@
-import 'package:event_management_app1/features/organizer/screens/events/Event_full_screen.dart';
+import 'package:event_management_app1/features/organizer/screens/events/Event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/config/app_theme.dart';
@@ -51,7 +51,7 @@ class _UnifiedDashboardState extends State<UnifiedDashboard> {
       } else {
         _pages = [
           HomeScreen(key: _homeScreenKey), 
-          DashboardActions(onEventPublished: _refreshHomeScreen),
+          EventScreen(onEventPublished: _refreshHomeScreen),
           const UserTicketsOverviewScreen(),
           const UserProfileScreen(),
         ];

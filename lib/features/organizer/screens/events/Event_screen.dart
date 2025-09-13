@@ -4,9 +4,9 @@ import 'package:event_management_app1/features/organizer/widgets/modern_card.dar
 import 'package:event_management_app1/features/organizer/screens/events/widgets/event_request_form.dart';
 import 'package:event_management_app1/features/organizer/screens/events/widgets/assigned_event_list_screen.dart';
 
-class DashboardActions extends StatelessWidget {
+class EventScreen extends StatelessWidget {
   final VoidCallback? onEventPublished;
-  const DashboardActions({super.key, this.onEventPublished});
+  const EventScreen({super.key, this.onEventPublished});
 
   @override
   Widget build(BuildContext context) {

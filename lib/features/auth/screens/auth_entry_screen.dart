@@ -1,4 +1,4 @@
-import 'package:event_management_app1/features/organizer/screens/events/Event_full_screen.dart';
+import 'package:event_management_app1/features/organizer/screens/events/Event_screen.dart';
 import 'package:event_management_app1/features/user/screens/unified_dashboard.dart';
 import 'package:event_management_app1/features/admin/screens/admin_dashboard.dart';
 import 'package:event_management_app1/features/organizer/screens/events/widgets/event_request_form.dart';
@@ -31,7 +31,7 @@ class EntryPointScreen extends StatelessWidget {
           case 'admin':
             return const AdminDashboard();
           case 'organizer':
-            return const DashboardActions();
+            return const EventScreen();
           case 'user':
             return const UnifiedDashboard();
           default:
